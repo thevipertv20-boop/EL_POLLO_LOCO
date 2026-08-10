@@ -1,0 +1,56 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>El Pollo Loco</title>
+    <link rel="icon" type="image/png" href="img/El pollo Loco Icon/El Pollo Loco.png">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+
+    <script src="models/drawable-object.class.js"></script>
+    <script src="models/movable-object.class.js"></script>
+    <script src="models/character.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/cloud.class.js"></script>
+    <script src="models/background-object.class.js"></script>
+    <script src="models/endboss.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
+    <script src="models/level.class.js"></script>
+    <script src="models/status-bar.class.js"></script>
+    <script src="models/throwable_object.class.js"></script>
+    <script src="models/coin.class.js"></script>
+    <script src="models/coin-bar.class.js"></script>
+    <script src="models/world.class.js"></script>
+    <script src="levels/level1.js"></script>
+    <script src="Js/game.js"></script>
+</head>
+
+
+<body onload="init()">
+
+    <div id="startScreen" onclick="playStartMusic()">
+
+        <h1></h1>
+
+        <button onclick="startGame()">
+            Spiel starten
+        </button>
+
+    </div>
+
+    <button id="musicButton" onclick="toggleMusic()">
+        <img id="musicIcon" src="img/El pollo Loco Icon/SoundAn.jpg" alt="Musik">
+    </button>
+
+    <canvas id="canvas" width="720" height="480"></canvas>
+
+    <button id="restartButton" onclick="restartGame()">
+        Nochmal spielen
+    </button>
+
+
+</body>
+
+</html>
