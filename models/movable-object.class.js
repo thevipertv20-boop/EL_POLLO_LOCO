@@ -18,12 +18,13 @@ class MovableObject extends DrawableObject {
     }
 
     isAboveGround() {
-    if (this instanceof ThrowableObject) {
-        return true;
-    } else {
-        return this.y < 180;
+        if (this instanceof ThrowableObject) {
+            return true;
+        } else {
+            return this.y < 180;
+        }
     }
-}
+
 
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Chicken) {
@@ -34,6 +35,7 @@ class MovableObject extends DrawableObject {
             ctx.stroke();
         }
     }
+
 
     playAnimation(images) {
         let i = this.currentImage % images.length;
@@ -64,9 +66,9 @@ class MovableObject extends DrawableObject {
     }
 
     isHurt() {
-    let timePassed = (new Date().getTime() - this.lastHit) / 1000;
-    return timePassed < 1;
-}
+        let timePassed = (new Date().getTime() - this.lastHit) / 1000;
+        return timePassed < 1;
+    }
 
     moveRight() {
         this.x += this.speed;

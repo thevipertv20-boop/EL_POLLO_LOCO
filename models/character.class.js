@@ -76,8 +76,9 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                 this.walking_sound.play();
             }
-            if (this.world.keyboard.SPACE && !this.isAboveGround()) {
+            if (this.world.keyboard.SPACE === true && !this.isAboveGround()) {
                 this.jump();
+                this.world.keyboard.SPACE = false;
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
@@ -87,7 +88,7 @@ class Character extends MovableObject {
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
             } else if (this.isHurt()) {
-                this.loadImages(this.IMAGES_HURT);
+                this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
             } else {

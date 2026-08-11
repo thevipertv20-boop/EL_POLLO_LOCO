@@ -55,9 +55,7 @@ function toggleMusic() {
 }
 
 function restartGame() {
-    document.getElementById("restartButton").style.display = "none";
-    gameStarted = true;
-    world = new World(canvas, keyboard);
+    location.reload();
 }
 
 window.addEventListener("keydown", (e) => {
