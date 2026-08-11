@@ -28,7 +28,6 @@ class CoinBar extends DrawableObject {
     // Hintergrund der Leiste
     ctx.save();
     ctx.globalAlpha = 0.3;
-
     ctx.drawImage(
         this.img,
         this.x,
@@ -36,24 +35,18 @@ class CoinBar extends DrawableObject {
         this.width,
         this.height
     );
-
     ctx.restore();
-
     // Blaue Füllung
     if (this.percentage > 0) {
         ctx.save();
-
         ctx.beginPath();
-
         ctx.rect(
             this.x,
             this.y,
             this.width * (this.percentage / 100),
             this.height
         );
-
         ctx.clip();
-
         ctx.drawImage(
             this.img,
             this.x,
@@ -61,7 +54,6 @@ class CoinBar extends DrawableObject {
             this.width,
             this.height
         );
-
         ctx.restore();
     }
 }

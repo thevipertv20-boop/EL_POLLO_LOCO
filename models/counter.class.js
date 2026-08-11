@@ -37,7 +37,6 @@ class Counter extends DrawableObject {
             this.width,
             this.height
         );
-
         ctx.font = 'bold 26px sans-serif';
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'black';

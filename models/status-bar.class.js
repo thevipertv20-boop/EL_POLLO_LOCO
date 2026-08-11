@@ -13,12 +13,10 @@ class StatusBar extends DrawableObject {
 
     constructor(isBoss = false) {
         super();
-
         this.x = 20;
         this.y = 20;
         this.width = 200;
         this.height = 50;
-
         if (isBoss) {
             this.IMAGES = [
                 'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
@@ -29,19 +27,14 @@ class StatusBar extends DrawableObject {
                 'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
             ];
         }
-
         this.loadImages(this.IMAGES);
         this.setPercentage(100);
     }
-
     setPercentage(percentage) {
         this.percentage = percentage;
     }
-
     draw(ctx) {
-
         let index = 0;
-
         if (this.percentage >= 100) {
             index = 5;
         } else if (this.percentage >= 80) {
@@ -55,14 +48,11 @@ class StatusBar extends DrawableObject {
         } else {
             index = 0;
         }
-
         let path = this.IMAGES[index];
         let image = this.imageCache[path];
-
         if (!image || !image.complete || image.naturalWidth === 0) {
             return;
         }
-
         ctx.drawImage(
             image,
             this.x,
