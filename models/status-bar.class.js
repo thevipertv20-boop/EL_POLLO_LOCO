@@ -32,6 +32,7 @@ class StatusBar extends DrawableObject {
     }
     setPercentage(percentage) {
         this.percentage = percentage;
+        console.log('Boss-Leiste:', percentage);
     }
     draw(ctx) {
         let index = 0;

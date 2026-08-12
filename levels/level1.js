@@ -1,5 +1,9 @@
 function createLevel1() {
 
+    let bird1 = new Bird();
+    bird1.x = 700;
+    bird1.y = 80;
+
     let chicken1 = new Chicken();
     chicken1.x = 500;
 
@@ -24,44 +28,113 @@ function createLevel1() {
     let endboss = new Endboss();
     endboss.x = 3000;
 
-    // Coins zufällig über die Karte verteilt - bei jedem Spielstart anders,
-    // aber gleichmäßig verteilt (kein Zufalls-Klumpen an einer Stelle)
     let coins = [];
-    let coinCount = 25;
-    let coinsAreaStart = 250;
-    let coinsAreaEnd = 2900;
-    let sectionWidth = (coinsAreaEnd - coinsAreaStart) / coinCount;
 
-    for (let i = 0; i < coinCount; i++) {
-        let coin = new Coin();
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 350;
+    coins[coins.length - 1].y = 350;
 
-        // x liegt in einem eigenen Abschnitt der Karte, damit die
-        // Coins nicht alle an derselben Stelle zufällig landen
-        coin.x = coinsAreaStart + (i * sectionWidth) +
-            (Math.random() * sectionWidth * 0.6);
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 400;
+    coins[coins.length - 1].y = 350;
 
-        // y zufällig zwischen 20 und 90 -> immer nur per Sprung erreichbar
-        coin.y = 20 + Math.random() * 70;
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 450;
+    coins[coins.length - 1].y = 350;
 
-        coins.push(coin);
-    }
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 600;
+    coins[coins.length - 1].y = 300;
 
-    // Flaschen im Level verteilt (zum Einsammeln)
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 650;
+    coins[coins.length - 1].y = 250;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 700;
+    coins[coins.length - 1].y = 300;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 850;
+    coins[coins.length - 1].y = 350;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 900;
+    coins[coins.length - 1].y = 350;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 950;
+    coins[coins.length - 1].y = 350;
+
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1100;
+    coins[coins.length - 1].y = 300;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1150;
+    coins[coins.length - 1].y = 250;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1200;
+    coins[coins.length - 1].y = 200;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1250;
+    coins[coins.length - 1].y = 250;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1300;
+    coins[coins.length - 1].y = 300;
+
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1450;
+    coins[coins.length - 1].y = 350;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1500;
+    coins[coins.length - 1].y = 350;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1550;
+    coins[coins.length - 1].y = 350;
+
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1700;
+    coins[coins.length - 1].y = 300;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1750;
+    coins[coins.length - 1].y = 250;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 1800;
+    coins[coins.length - 1].y = 300;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 2000;
+    coins[coins.length - 1].y = 350;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 2050;
+    coins[coins.length - 1].y = 350;
+
+    coins.push(new Coin());
+    coins[coins.length - 1].x = 2100;
+    coins[coins.length - 1].y = 350;
+
     let bottle1 = new Bottle();
     bottle1.x = 250;
-
     let bottle2 = new Bottle();
     bottle2.x = 650;
-
     let bottle3 = new Bottle();
     bottle3.x = 1050;
-
     let bottle4 = new Bottle();
     bottle4.x = 1450;
-
     let bottle5 = new Bottle();
     bottle5.x = 1850;
-
     return new Level(
         [
             chicken1,
@@ -73,14 +146,13 @@ function createLevel1() {
             chicken7,
             endboss
         ],
-
         [
             new Cloud()
         ],
-
+        [
+            bird1
+        ],
         coins,
-
-        // dein kompletter Hintergrund bleibt hier
         [
             new BackgroundObject("img/5_background/layers/air.png", -720),
             new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -720),
