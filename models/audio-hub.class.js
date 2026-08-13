@@ -3,6 +3,9 @@ class AudioHub {
     static BOTTLE = new Audio("audio/Flaschensammeln.mp3");
     static BOSS_HIT = new Audio("audio/Boss_hit_sound.mp3");
     static BOSS_APPEAR = new Audio("audio/Boss_ist_erschinen.mp3");
+    static CHICKEN_DEAD = new Audio("audio/Chicken_tot.mp3");
+    static BOSS_WIN = new Audio("audio/Boss_sieg_ende.mp3");
+    static GAME_OVER = new Audio("audio/Game_Over.mp3");
 
     static masterVolume = 1;
     static effectsVolume = 1;
@@ -11,7 +14,10 @@ class AudioHub {
         AudioHub.COIN,
         AudioHub.BOTTLE,
         AudioHub.BOSS_HIT,
-        AudioHub.BOSS_APPEAR
+        AudioHub.BOSS_APPEAR,
+        AudioHub.CHICKEN_DEAD,
+        AudioHub.BOSS_WIN,
+        AudioHub.GAME_OVER,
     ];
 
     static playOne(sound) {

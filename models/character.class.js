@@ -97,10 +97,10 @@ class Character extends MovableObject {
                 }
             }
         }, 50);
-    }   // <-- hier endet animate()
+    }   
 
     jump() {
         this.speedY = 30;
     }
 
-}   // <-- hier endet die Klasse
+}   

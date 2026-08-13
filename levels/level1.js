@@ -127,14 +127,30 @@ function createLevel1() {
 
     let bottle1 = new Bottle();
     bottle1.x = 250;
+
     let bottle2 = new Bottle();
-    bottle2.x = 650;
+    bottle2.x = 550;
+
     let bottle3 = new Bottle();
-    bottle3.x = 1050;
+    bottle3.x = 850;
+
     let bottle4 = new Bottle();
-    bottle4.x = 1450;
+    bottle4.x = 1150;
+
     let bottle5 = new Bottle();
-    bottle5.x = 1850;
+    bottle5.x = 1450;
+
+    let bottle6 = new Bottle();
+    bottle6.x = 1750;
+
+    let bottle7 = new Bottle();
+    bottle7.x = 2050;
+
+    let bottle8 = new Bottle();
+    bottle8.x = 2350;
+
+    let bottle9 = new Bottle();
+    bottle9.x = 2650;
     return new Level(
         [
             chicken1,
@@ -190,7 +206,11 @@ function createLevel1() {
             bottle2,
             bottle3,
             bottle4,
-            bottle5
+            bottle5,
+            bottle6,
+            bottle7,
+            bottle8,
+            bottle9
         ]
     );
 }

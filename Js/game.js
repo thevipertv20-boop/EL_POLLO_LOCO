@@ -36,12 +36,6 @@ function startGame() {
     world = new World(canvas, keyboard);
 }
 
-function playStartMusic() {
-    if (gameStarted) return;
-    if (musicOn && startMusic.paused) {
-        startMusic.play();
-    }
-}
 
 function toggleMusic() {
     musicOn = !musicOn;

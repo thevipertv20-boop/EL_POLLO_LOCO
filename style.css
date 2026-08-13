@@ -11,6 +11,9 @@ body {
     position: relative;
 }
 
+/* =========================
+   SPIEL
+   ========================= */
 
 canvas {
     position: fixed;
@@ -23,77 +26,22 @@ canvas {
     background-color: transparent;
 }
 
-
-#startScreen button:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 15px rgba(255, 196, 0, 0.7);
-}
-
-
+/* =========================
+   STARTMENÜ
+   ========================= */
 
 #startScreen {
     position: fixed;
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 9999;
 }
 
-
-
-
-.imageMenuButton {
-    position: absolute;
-    left: 50%;
-    width: 390px;
-    height: 55px;
-    transform: translateX(-50%);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: 0.2s ease;
-}
-
-#startGameButton {
-    top: 175px;
-}
-
-#instructionsButton {
-    top: 235px;
-}
-
-#controlsButton {
-    top: 295px;
-}
-
-#menuSoundButton {
-    top: 355px;
-}
-
-#imprintButton {
-    top: 415px;
-}
-
-.imageMenuButton:hover {
-    background: rgba(255, 180, 0, 0.15);
-    box-shadow:
-        0 0 15px rgba(255, 180, 0, 0.7);
-    transform: translateX(-50%) scale(1.02);
-}
-
-.imageMenuButton:active {
-    transform: translateX(-50%) scale(0.97);
-}
-
 .menuPanel {
-
     width: 430px;
     min-height: 400px;
     padding: 25px 35px;
@@ -102,9 +50,10 @@ canvas {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background:
-        linear-gradient(rgba(20, 12, 5, 0.95),
-            rgba(35, 20, 8, 0.95));
+    background: linear-gradient(
+        rgba(20, 12, 5, 0.95),
+        rgba(35, 20, 8, 0.95)
+    );
     border: 5px solid #6b3510;
     border-radius: 18px;
     box-shadow:
@@ -114,7 +63,6 @@ canvas {
 }
 
 .gameTitle {
-
     font-family: 'Bangers', cursive;
     font-size: 48px;
     letter-spacing: 2px;
@@ -127,7 +75,6 @@ canvas {
 }
 
 .menuButton {
-
     width: 300px;
     min-height: 48px;
     margin: 6px 0;
@@ -136,9 +83,10 @@ canvas {
     font-size: 24px;
     letter-spacing: 1px;
     color: #2b1707;
-    background:
-        linear-gradient(#f7b23b,
-            #c96b13);
+    background: linear-gradient(
+        #f7b23b,
+        #c96b13
+    );
     border: 3px solid #7a3d0b;
     border-radius: 10px;
     cursor: pointer;
@@ -150,9 +98,10 @@ canvas {
 
 .menuButton:hover {
     transform: scale(1.05);
-    background:
-        linear-gradient(#ffc95a,
-            #ed7b15);
+    background: linear-gradient(
+        #ffc95a,
+        #ed7b15
+    );
     box-shadow:
         0 0 15px rgba(255, 184, 0, 0.8),
         0 4px 0 #542405;
@@ -160,9 +109,12 @@ canvas {
 
 .menuButton:active {
     transform: scale(0.97);
-    box-shadow:
-        0 1px 0 #542405;
+    box-shadow: 0 1px 0 #542405;
 }
+
+/* =========================
+   OVERLAYS
+   ========================= */
 
 .menuOverlay {
     display: none;
@@ -172,8 +124,7 @@ canvas {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background:
-        rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.75);
     z-index: 20000;
     justify-content: center;
     align-items: center;
@@ -184,12 +135,11 @@ canvas {
     max-height: 420px;
     padding: 25px 35px;
     box-sizing: border-box;
-    background:
-        linear-gradient(
-            135deg,
-            #2a190c,
-            #100c08
-        );
+    background: linear-gradient(
+        135deg,
+        #2a190c,
+        #100c08
+    );
     border: 5px solid #9b5a13;
     border-radius: 18px;
     box-shadow:
@@ -207,15 +157,13 @@ canvas {
     font-size: 38px;
     color: #ffb000;
     letter-spacing: 2px;
-    text-shadow:
-        2px 2px 0 #6b2500;
+    text-shadow: 2px 2px 0 #6b2500;
 }
 
 .infoContent {
     font-family: Arial, sans-serif;
     line-height: 1.4;
 }
-
 
 .infoContent h3 {
     color: #ffb000;
@@ -230,6 +178,10 @@ canvas {
     color: #f5e5c7;
     font-size: 16px;
 }
+
+/* =========================
+   SCHLIESSEN / ZURÜCK
+   ========================= */
 
 .closeButton {
     position: absolute;
@@ -258,22 +210,23 @@ canvas {
     font-family: 'Bangers', cursive;
     font-size: 23px;
     color: #2b1707;
-    background:
-        linear-gradient(
-            #ffc34d,
-            #d87913
-        );
+    background: linear-gradient(
+        #ffc34d,
+        #d87913
+    );
     border: 3px solid #7a3d0b;
     border-radius: 10px;
     cursor: pointer;
-    box-shadow:
-        0 4px 0 #542405;
+    box-shadow: 0 4px 0 #542405;
 }
-
 
 .backButton:hover {
     transform: scale(1.05);
 }
+
+/* =========================
+   STEUERUNG
+   ========================= */
 
 .controlsContent {
     display: flex;
@@ -282,25 +235,55 @@ canvas {
     margin-top: 20px;
 }
 
-
 .controlRow {
     display: grid;
-    grid-template-columns: 50px 1fr 1fr;
+    grid-template-columns: 220px 1fr;
     align-items: center;
     padding: 12px;
-    background: rgba(255, 170, 0, 0.1);
-    border: 1px solid rgba(255, 170, 0, 0.3);
-    border-radius: 8px;
-    font-family: Arial, sans-serif;
+    gap: 10px;
+}
+
+.controlRow strong {
+    color: #ffb000;
+}
+
+.controlRow span {
+    color: white;
 }
 
 .controlRow span:first-child {
     font-size: 25px;
 }
 
-.controlRow strong {
-    color: #ffb000;
+/* =========================
+   MUSIK
+   ========================= */
+
+.soundPanel {
+    width: 620px;
 }
+
+.volumeControl {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+    font-family: Arial, sans-serif;
+    color: #f5e5c7;
+}
+
+.volumeControl label {
+    font-size: 17px;
+}
+
+.volumeControl input[type="range"] {
+    width: 100%;
+    cursor: pointer;
+    accent-color: #168cff;
+}
+
+/* Musik-Button */
 
 #musicButton {
     position: fixed;
@@ -317,6 +300,9 @@ canvas {
     z-index: 10000;
 }
 
+#musicButton:hover {
+    transform: scale(1.1);
+}
 
 #musicButton img {
     width: 100%;
@@ -324,45 +310,3 @@ canvas {
     border-radius: 50%;
 }
 
-#restartButton,
-#menuButton {
-    display: none;
-    position: fixed;
-    width: 215px;
-    height: 58px;
-    box-sizing: border-box;
-    transform: translateX(-50%);
-    padding: 0;
-    font-size: 22px;
-    font-family: 'Bangers', cursive;
-    cursor: pointer;
-    border: 3px solid #7a3d0b;
-    border-radius: 8px;
-    background: linear-gradient(
-        #ffc34d,
-        #d87913
-    );
-    color: #2b1707;
-    box-shadow: 0 4px 0 #542405;
-    z-index: 10000;
-    transition: 0.15s ease;
-}
-
-#restartButton {
-    top: 82%;
-    left: calc(50% - 120px);
-}
-
-#menuButton {
-    top: 82%;
-    left: calc(50% + 120px);
-}
-
-#restartButton:hover,
-#menuButton:hover {
-    transform: translateX(-50%) scale(1.05);
-    background: linear-gradient(
-        #ffd05c,
-        #ed7b15
-    );
-}

@@ -78,43 +78,22 @@ class Endboss extends MovableObject {
 
 
     attack(character) {
-        if (this.isDeadAnimation) {
-            return;
-        }
-        if (this.isAttacking) {
-            return;
-        }
+        if (this.isDeadAnimation) return;
+        if (this.isAttacking) return;
         this.isAttacking = true;
         this.currentImage = 0;
-        let attackAnimation = setInterval(() => {
+        this.attackAnimation = setInterval(() => {
             if (this.currentImage >= this.IMAGES_ATTACK.length) {
-                clearInterval(attackAnimation);
+                clearInterval(this.attackAnimation);
                 this.isAttacking = false;
                 return;
             }
             this.img = this.imageCache[
-                this.IMAGES_ATTACK[
-                this.currentImage
-                ]
+                this.IMAGES_ATTACK[this.currentImage]
             ];
             this.currentImage++;
         }, 100);
-
-
-        setTimeout(() => {
-            if (
-                character &&
-                !character.isDead() &&
-                !character.isHurt()
-            ) {
-                character.hit();
-                console.log(
-                    "Boss hat Pepe angegriffen!"
-                );
-            }
-        }, 400);
     }
-
 
     hit() {
         if (this.energy <= 0) {
@@ -141,6 +120,9 @@ class Endboss extends MovableObject {
         if (this.isDeadAnimation) return;
         this.isDeadAnimation = true;
         this.isAttacking = false;
+        if (this.attackAnimation) {
+            clearInterval(this.attackAnimation);
+        }
         this.currentImage = 0;
         const animation = setInterval(() => {
             if (this.currentImage >= this.IMAGES_DEAD.length) {
@@ -148,8 +130,14 @@ class Endboss extends MovableObject {
                 this.deadAnimationFinished = true;
                 return;
             }
-            this.img = this.imageCache[this.IMAGES_DEAD[this.currentImage]];
+            console.log(
+                "Boss Todesframe:",
+                this.currentImage + 1
+            );
+            this.img = this.imageCache[
+                this.IMAGES_DEAD[this.currentImage]
+            ];
             this.currentImage++;
-        }, 400);
+        }, 500);
     }
 }

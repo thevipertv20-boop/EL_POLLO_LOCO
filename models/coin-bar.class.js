@@ -17,7 +17,7 @@ class CoinBar extends DrawableObject {
 
     setPercentage(percentage) {
         this.percentage = percentage;
-        console.log("CoinBar Prozent:", this.percentage); // zum Testen, später wieder entfernen
+        console.log("CoinBar Prozent:", this.percentage); 
     }
 
     draw(ctx) {
@@ -25,7 +25,6 @@ class CoinBar extends DrawableObject {
         return;
     }
 
-    // Hintergrund der Leiste
     ctx.save();
     ctx.globalAlpha = 0.3;
     ctx.drawImage(
@@ -36,7 +35,6 @@ class CoinBar extends DrawableObject {
         this.height
     );
     ctx.restore();
-    // Blaue Füllung
     if (this.percentage > 0) {
         ctx.save();
         ctx.beginPath();
