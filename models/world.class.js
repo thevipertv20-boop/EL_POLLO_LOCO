@@ -1,7 +1,9 @@
 class World {
     character = new Character();
     level = createLevel1();
-    canvas; ctx; keyboard;
+    canvas;
+    ctx;
+    keyboard;
     camera_x = 0;
     throwableObjects = [];
     gameOver = false;
@@ -9,8 +11,10 @@ class World {
     bossIntroPlayed = false;
     gameOverImage = new Image();
     winImage = new Image();
-    bottleCounter; coinCounter;
-    healthBar; bossHealthBar;
+    bottleCounter;
+    coinCounter;
+    healthBar;
+    bossHealthBar;
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
@@ -32,15 +36,16 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.level.enemies.forEach(e => {
-            if (e) e.world = this;
+        this.level.enemies.forEach(enemy => {
+            if (enemy) enemy.world = this;
         });
         this.bottleCounter = new Counter(
             'img/7_statusbars/3_icons/icon_salsa_bottle.png',
             120, 80, 0
         );
         this.coinCounter = new Counter(
-            'img/8_coin/coin_1.png', 20, 80, 0
+            'img/8_coin/coin_1.png',
+            20, 80, 0
         );
         this.healthBar = new StatusBar();
         this.bossHealthBar = new StatusBar(true);
@@ -63,9 +68,9 @@ class World {
         this.addToMap(this.healthBar);
         this.addToMap(this.bottleCounter);
         this.addToMap(this.coinCounter);
-
-        if (this.bossIntroPlayed && !this.gameOver && !this.gameWon)
+        if (this.bossIntroPlayed && !this.gameOver && !this.gameWon) {
             this.addToMap(this.bossHealthBar);
+        }
         if (this.gameOver) {
             this.showEndScreen(this.gameOverImage);
             return;
@@ -79,35 +84,21 @@ class World {
 
     showEndScreen(image) {
         this.ctx.drawImage(
-            image,
-            0,
-            0,
-            this.canvas.width,
-            this.canvas.height
+            image, 0, 0,
+            this.canvas.width, this.canvas.height
         );
         document.body.classList.add('game-ended');
-        const touchControls =
-            document.getElementById('touchControls');
-        const restartButton =
-            document.getElementById('restartButton');
-        const menuButton =
-            document.getElementById('menuButton');
+        let touchControls = document.getElementById('touchControls');
+        let restartButton = document.getElementById('restartButton');
+        let menuButton = document.getElementById('menuButton');
         if (touchControls) {
             touchControls.style.display = 'none';
         }
         if (restartButton) {
-            restartButton.style.setProperty(
-                'display',
-                'block',
-                'important'
-            );
+            restartButton.style.setProperty('display', 'block', 'important');
         }
         if (menuButton) {
-            menuButton.style.setProperty(
-                'display',
-                'block',
-                'important'
-            );
+            menuButton.style.setProperty('display', 'block', 'important');
         }
     }
 
@@ -120,13 +111,18 @@ class World {
 
     addToMap(object) {
         if (!object) return;
-        if (object.otherDirection && object instanceof MovableObject)
+        if (object.otherDirection && object instanceof MovableObject) {
             this.flipImage(object);
+        }
         object.draw(this.ctx);
-        if (object instanceof MovableObject && object.drawFrame)
+        /*
+        if (object instanceof MovableObject && object.drawFrame) {
             object.drawFrame(this.ctx);
-        if (object.otherDirection && object instanceof MovableObject)
+        }
+        */
+        if (object.otherDirection && object instanceof MovableObject) {
             this.flipImageBack(object);
+        }
     }
 
     flipImage(object) {
@@ -146,16 +142,22 @@ class World {
             if (this.gameOver || this.gameWon) return;
             this.level.enemies.forEach(enemy => {
                 if (!enemy || !this.character.isColliding(enemy)) return;
-                if (this.isChicken(enemy)) this.handleChicken(enemy);
-                if (enemy instanceof Endboss) this.handleBoss(enemy);
+                if (this.isChicken(enemy)) {
+                    this.handleChicken(enemy);
+                }
+                if (enemy instanceof Endboss) {
+                    this.handleBoss(enemy);
+                }
             });
         }, 1000 / 60);
     }
 
     handleChicken(enemy) {
         if (enemy.isDead()) return;
-        if (this.character.speedY < 0 &&
-            this.character.y + this.character.height <= enemy.y + 60) {
+        if (
+            this.character.speedY < 0 &&
+            this.character.y + this.character.height <= enemy.y + 60
+        ) {
             enemy.hit();
             AudioHub.playOne(AudioHub.CHICKEN_DEAD);
             this.character.speedY = 15;
@@ -197,18 +199,29 @@ class World {
     }
 
     checkBottlePickups() {
-        setInterval(() => {
-            if (this.gameOver || this.gameWon) return;
-            this.level.bottles.forEach(bottle => {
-                if (!bottle || !this.character.isColliding(bottle)) return;
-                this.level.bottles.splice(
-                    this.level.bottles.indexOf(bottle), 1
-                );
-                this.bottleCounter.increase();
-                AudioHub.playOne(AudioHub.BOTTLE);
-            });
-        }, 1000 / 60);
-    }
+    setInterval(() => {
+        if (this.gameOver || this.gameWon) return;
+        this.level.bottles.forEach(bottle => {
+            if (!bottle) return;
+            const characterX = this.character.x + 35;
+            const characterY = this.character.y + 80;
+            const characterWidth = this.character.width - 70;
+            const characterHeight = this.character.height - 80;
+            const colliding =
+                characterX + characterWidth > bottle.x &&
+                characterX < bottle.x + bottle.width &&
+                characterY + characterHeight > bottle.y &&
+                characterY < bottle.y + bottle.height;
+            if (!colliding) return;
+            this.level.bottles.splice(
+                this.level.bottles.indexOf(bottle),
+                1
+            );
+            this.bottleCounter.increase();
+            AudioHub.playOne(AudioHub.BOTTLE);
+        });
+    }, 1000 / 60);
+}
 
     checkThrowObjects() {
         setInterval(() => {
@@ -231,8 +244,9 @@ class World {
             this.throwableObjects.forEach(bottle => {
                 if (!bottle) return;
                 this.level.enemies.forEach(enemy => {
-                    if (bottle.isColliding(enemy))
+                    if (bottle.isColliding(enemy)) {
                         this.hitEnemy(enemy, bottle);
+                    }
                 });
             });
         }, 1000 / 60);
@@ -243,15 +257,17 @@ class World {
         this.removeBottle(bottle);
         if (enemy instanceof Endboss) {
             this.bossHealthBar.setPercentage(enemy.energy);
-            if (enemy.isDead())
+            if (enemy.isDead()) {
                 this.waitForBossDeath(enemy);
+            }
         }
     }
 
     removeBottle(bottle) {
         let index = this.throwableObjects.indexOf(bottle);
-        if (index !== -1)
+        if (index !== -1) {
             this.throwableObjects.splice(index, 1);
+        }
     }
 
     waitForBossDeath(boss) {
@@ -299,18 +315,22 @@ class World {
     moveBoss(boss) {
         if (boss.patrolDirection === 'left') {
             boss.moveLeft(3);
-            if (boss.x <= boss.minX)
+            if (boss.x <= boss.minX) {
                 boss.patrolDirection = 'right';
+            }
             return;
         }
+
         boss.moveRight(3);
-        if (boss.x >= boss.maxX)
+        if (boss.x >= boss.maxX) {
             boss.patrolDirection = 'left';
+        }
     }
 
     checkPlayerDeath() {
-        if (!this.character.isDead() ||
-            this.gameOver || this.gameWon) return;
+        if (!this.character.isDead() || this.gameOver || this.gameWon) {
+            return;
+        }
         this.gameOver = true;
         this.character.walking_sound.pause();
         AudioHub.playOne(AudioHub.GAME_OVER);

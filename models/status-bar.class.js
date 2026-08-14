@@ -1,7 +1,6 @@
 class StatusBar extends DrawableObject {
 
     percentage = 100;
-
     IMAGES = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
@@ -27,13 +26,15 @@ class StatusBar extends DrawableObject {
                 'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
             ];
         }
+
         this.loadImages(this.IMAGES);
         this.setPercentage(100);
     }
+
     setPercentage(percentage) {
         this.percentage = percentage;
-        console.log('Boss-Leiste:', percentage);
     }
+
     draw(ctx) {
         let index = 0;
         if (this.percentage >= 100) {
@@ -46,14 +47,12 @@ class StatusBar extends DrawableObject {
             index = 2;
         } else if (this.percentage >= 20) {
             index = 1;
-        } else {
-            index = 0;
         }
-        let path = this.IMAGES[index];
-        let image = this.imageCache[path];
+        let image = this.imageCache[this.IMAGES[index]];
         if (!image || !image.complete || image.naturalWidth === 0) {
             return;
         }
+
         ctx.drawImage(
             image,
             this.x,

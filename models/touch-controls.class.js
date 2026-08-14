@@ -14,10 +14,7 @@ class TouchControls {
 
     addButton(id, key) {
         let button = document.getElementById(id);
-
-        if (!button) {
-            return;
-        }
+        if (!button) return;
 
         button.addEventListener('pointerdown', (e) => {
             e.preventDefault();
@@ -25,8 +22,7 @@ class TouchControls {
             this.keyboard[key] = true;
         });
 
-        button.addEventListener('pointerup', (e) => {
-            e.preventDefault();
+        button.addEventListener('pointerup', () => {
             this.keyboard[key] = false;
         });
 
@@ -38,8 +34,6 @@ class TouchControls {
             this.keyboard[key] = false;
         });
 
-        button.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-        });
+        button.addEventListener('contextmenu', (e) => e.preventDefault());
     }
 }

@@ -33,15 +33,14 @@ class Character extends MovableObject {
         'img/2_character_pepe/5_dead/D-54.png',
         'img/2_character_pepe/5_dead/D-55.png',
         'img/2_character_pepe/5_dead/D-56.png',
-        'img/2_character_pepe/5_dead/D-57.png',
-    ]
+        'img/2_character_pepe/5_dead/D-57.png'
+    ];
 
     IMAGES_HURT = [
         'img/2_character_pepe/4_hurt/H-41.png',
         'img/2_character_pepe/4_hurt/H-42.png',
         'img/2_character_pepe/4_hurt/H-43.png'
     ];
-
 
     world;
     walking_sound = new Audio('audio/freesound_community-sand-walk-106366.mp3');
@@ -59,24 +58,29 @@ class Character extends MovableObject {
     }
 
     animate() {
-        console.log("animate gestartet");
-
-
         setInterval(() => {
-            if (!this.world) return;
-            if (this.isDead()) return;
+            if (!this.world || this.isDead()) return;
             this.walking_sound.pause();
-            if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+            if (
+                this.world.keyboard.RIGHT &&
+                this.x < this.world.level.level_end_x
+            ) {
                 this.moveRight();
                 this.otherDirection = false;
                 this.walking_sound.play();
             }
-            if (this.world.keyboard.LEFT && this.x > 0) {
+            if (
+                this.world.keyboard.LEFT &&
+                this.x > 0
+            ) {
                 this.moveLeft();
                 this.otherDirection = true;
                 this.walking_sound.play();
             }
-            if (this.world.keyboard.SPACE === true && !this.isAboveGround()) {
+            if (
+                this.world.keyboard.SPACE &&
+                !this.isAboveGround()
+            ) {
                 this.jump();
                 this.world.keyboard.SPACE = false;
             }
@@ -91,16 +95,16 @@ class Character extends MovableObject {
                 this.playAnimation(this.IMAGES_HURT);
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
-            } else {
-                if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-                    this.playAnimation(this.IMAGES_WALKING);
-                }
+            } else if (
+                this.world.keyboard.RIGHT ||
+                this.world.keyboard.LEFT
+            ) {
+                this.playAnimation(this.IMAGES_WALKING);
             }
         }, 50);
-    }   
-
-    jump() {
-        this.speedY = 30;
     }
 
-}   
+    jump() {
+        this.speedY = 20;
+    }
+}

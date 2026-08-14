@@ -45,10 +45,20 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
-        return this.x + this.width > mo.x &&
-            this.y + this.height > mo.y &&
-            this.x < mo.x + mo.width &&
-            this.y < mo.y + mo.height;
+        const thisLeft = this.x;
+        const thisRight = this.x + this.width;
+        const thisTop = this.y;
+        const thisBottom = this.y + this.height;
+
+        const moLeft = mo.x + (mo.offset?.left || 0);
+        const moRight = mo.x + mo.width - (mo.offset?.right || 0);
+        const moTop = mo.y + (mo.offset?.top || 0);
+        const moBottom = mo.y + mo.height - (mo.offset?.bottom || 0);
+
+        return thisRight > moLeft &&
+            thisBottom > moTop &&
+            thisLeft < moRight &&
+            thisTop < moBottom;
     }
 
     hit() {
@@ -79,6 +89,6 @@ class MovableObject extends DrawableObject {
     }
 
     jump() {
-        this.speedY = 30;
+        this.speedY = 20;
     }
 }
