@@ -14,7 +14,6 @@ class World {
 
     constructor(canvas, keyboard) {
         this.canvas = canvas;
-        document.getElementById('touchControls').style.display = 'flex';
         this.ctx = canvas.getContext('2d');
         this.keyboard = keyboard;
         this.gameOverImage.src = 'img/You won, you lost/Game Over.png';
@@ -67,17 +66,14 @@ class World {
 
         if (this.bossIntroPlayed && !this.gameOver && !this.gameWon)
             this.addToMap(this.bossHealthBar);
-
         if (this.gameOver) {
             this.showEndScreen(this.gameOverImage);
             return;
         }
-
         if (this.gameWon) {
             this.showEndScreen(this.winImage);
             return;
         }
-
         requestAnimationFrame(() => this.draw());
     }
 
@@ -113,211 +109,210 @@ class World {
                 'important'
             );
         }
-    
-}
-
-addObjectsToMap(objects) {
-    if (!objects) return;
-    objects.forEach(object => {
-        if (object) this.addToMap(object);
-    });
-}
-
-addToMap(object) {
-    if (!object) return;
-    if (object.otherDirection && object instanceof MovableObject)
-        this.flipImage(object);
-    object.draw(this.ctx);
-    if (object instanceof MovableObject && object.drawFrame)
-        object.drawFrame(this.ctx);
-    if (object.otherDirection && object instanceof MovableObject)
-        this.flipImageBack(object);
-}
-
-flipImage(object) {
-    this.ctx.save();
-    this.ctx.translate(object.width, 0);
-    this.ctx.scale(-1, 1);
-    object.x *= -1;
-}
-
-flipImageBack(object) {
-    object.x *= -1;
-    this.ctx.restore();
-}
-
-checkCollisions() {
-    setInterval(() => {
-        if (this.gameOver || this.gameWon) return;
-        this.level.enemies.forEach(enemy => {
-            if (!enemy || !this.character.isColliding(enemy)) return;
-            if (this.isChicken(enemy)) this.handleChicken(enemy);
-            if (enemy instanceof Endboss) this.handleBoss(enemy);
-        });
-    }, 1000 / 60);
-}
-
-handleChicken(enemy) {
-    if (enemy.isDead()) return;
-    if (this.character.speedY < 0 &&
-        this.character.y + this.character.height <= enemy.y + 60) {
-        enemy.hit();
-        AudioHub.playOne(AudioHub.CHICKEN_DEAD);
-        this.character.speedY = 15;
-        return;
     }
-    if (!this.character.isHurt()) {
-        this.character.hit();
-        this.healthBar.setPercentage(this.character.energy);
-        this.checkPlayerDeath();
+
+    addObjectsToMap(objects) {
+        if (!objects) return;
+        objects.forEach(object => {
+            if (object) this.addToMap(object);
+        });
     }
-}
 
-handleBoss(enemy) {
-    if (enemy.isDeadAnimation || !enemy.isAttacking) return;
-    if (this.character.isHurt()) return;
-    this.character.hit();
-    this.healthBar.setPercentage(this.character.energy);
-    this.character.x += this.character.x < enemy.x ? -80 : 80;
-    this.character.speedY = 15;
-    this.checkPlayerDeath();
-}
+    addToMap(object) {
+        if (!object) return;
+        if (object.otherDirection && object instanceof MovableObject)
+            this.flipImage(object);
+        object.draw(this.ctx);
+        if (object instanceof MovableObject && object.drawFrame)
+            object.drawFrame(this.ctx);
+        if (object.otherDirection && object instanceof MovableObject)
+            this.flipImageBack(object);
+    }
 
-isChicken(enemy) {
-    return enemy instanceof Chicken;
-}
+    flipImage(object) {
+        this.ctx.save();
+        this.ctx.translate(object.width, 0);
+        this.ctx.scale(-1, 1);
+        object.x *= -1;
+    }
 
-checkCoins() {
-    setInterval(() => {
-        if (this.gameOver || this.gameWon) return;
-        this.level.coins.forEach(coin => {
-            if (!coin || !this.character.isColliding(coin)) return;
-            this.level.coins.splice(
-                this.level.coins.indexOf(coin), 1
-            );
-            this.coinCounter.increase();
-            AudioHub.playOne(AudioHub.COIN);
-        });
-    }, 1000 / 60);
-}
+    flipImageBack(object) {
+        object.x *= -1;
+        this.ctx.restore();
+    }
 
-checkBottlePickups() {
-    setInterval(() => {
-        if (this.gameOver || this.gameWon) return;
-        this.level.bottles.forEach(bottle => {
-            if (!bottle || !this.character.isColliding(bottle)) return;
-            this.level.bottles.splice(
-                this.level.bottles.indexOf(bottle), 1
-            );
-            this.bottleCounter.increase();
-            AudioHub.playOne(AudioHub.BOTTLE);
-        });
-    }, 1000 / 60);
-}
-
-checkThrowObjects() {
-    setInterval(() => {
-        if (this.gameOver || this.gameWon) return;
-        if (!this.keyboard.D || this.bottleCounter.count <= 0) return;
-        let bottle = new ThrowableObject(
-            this.character.x + 100,
-            this.character.y + 100
-        );
-        bottle.otherDirection = this.character.otherDirection;
-        this.throwableObjects.push(bottle);
-        this.bottleCounter.decrease();
-        this.keyboard.D = false;
-    }, 200);
-}
-
-checkBottleCollisions() {
-    setInterval(() => {
-        if (this.gameOver || this.gameWon) return;
-        this.throwableObjects.forEach(bottle => {
-            if (!bottle) return;
+    checkCollisions() {
+        setInterval(() => {
+            if (this.gameOver || this.gameWon) return;
             this.level.enemies.forEach(enemy => {
-                if (bottle.isColliding(enemy))
-                    this.hitEnemy(enemy, bottle);
+                if (!enemy || !this.character.isColliding(enemy)) return;
+                if (this.isChicken(enemy)) this.handleChicken(enemy);
+                if (enemy instanceof Endboss) this.handleBoss(enemy);
             });
-        });
-    }, 1000 / 60);
-}
-
-hitEnemy(enemy, bottle) {
-    enemy.hit();
-    this.removeBottle(bottle);
-    if (enemy instanceof Endboss) {
-        this.bossHealthBar.setPercentage(enemy.energy);
-        if (enemy.isDead())
-            this.waitForBossDeath(enemy);
+        }, 1000 / 60);
     }
-}
 
-removeBottle(bottle) {
-    let index = this.throwableObjects.indexOf(bottle);
-    if (index !== -1)
-        this.throwableObjects.splice(index, 1);
-}
-
-waitForBossDeath(boss) {
-    let wait = setInterval(() => {
-        if (!boss.deadAnimationFinished) return;
-        clearInterval(wait);
-        setTimeout(() => {
-            AudioHub.playOne(AudioHub.BOSS_WIN);
-            this.gameWon = true;
-        }, 1500);
-    }, 50);
-}
-
-checkBossAppearance() {
-    setInterval(() => {
-        if (this.gameOver || this.gameWon) return;
-        let boss = this.getBoss();
-        if (!boss || this.character.x <= 2500) return;
-        if (this.bossIntroPlayed) return;
-        this.bossIntroPlayed = true;
-        AudioHub.playOne(AudioHub.BOSS_APPEAR);
-    }, 100);
-}
-
-getBoss() {
-    return this.level.enemies.find(
-        enemy => enemy instanceof Endboss
-    );
-}
-
-checkBossAttack() {
-    setInterval(() => {
-        if (this.gameOver || this.gameWon) return;
-        let boss = this.getBoss();
-        if (!boss || boss.isDeadAnimation) return;
-        let distance = Math.abs(this.character.x - boss.x);
-        if (distance <= 350 && !boss.isAttacking) {
-            boss.attack(this.character);
+    handleChicken(enemy) {
+        if (enemy.isDead()) return;
+        if (this.character.speedY < 0 &&
+            this.character.y + this.character.height <= enemy.y + 60) {
+            enemy.hit();
+            AudioHub.playOne(AudioHub.CHICKEN_DEAD);
+            this.character.speedY = 15;
             return;
         }
-        this.moveBoss(boss);
-    }, 100);
-}
-
-moveBoss(boss) {
-    if (boss.patrolDirection === 'left') {
-        boss.moveLeft(3);
-        if (boss.x <= boss.minX)
-            boss.patrolDirection = 'right';
-        return;
+        if (!this.character.isHurt()) {
+            this.character.hit();
+            this.healthBar.setPercentage(this.character.energy);
+            this.checkPlayerDeath();
+        }
     }
-    boss.moveRight(3);
-    if (boss.x >= boss.maxX)
-        boss.patrolDirection = 'left';
-}
 
-checkPlayerDeath() {
-    if (!this.character.isDead() ||
-        this.gameOver || this.gameWon) return;
-    this.gameOver = true;
-    this.character.walking_sound.pause();
-    AudioHub.playOne(AudioHub.GAME_OVER);
-}
+    handleBoss(enemy) {
+        if (enemy.isDeadAnimation || !enemy.isAttacking) return;
+        if (this.character.isHurt()) return;
+        this.character.hit();
+        this.healthBar.setPercentage(this.character.energy);
+        this.character.x += this.character.x < enemy.x ? -80 : 80;
+        this.character.speedY = 15;
+        this.checkPlayerDeath();
+    }
+
+    isChicken(enemy) {
+        return enemy instanceof Chicken;
+    }
+
+    checkCoins() {
+        setInterval(() => {
+            if (this.gameOver || this.gameWon) return;
+            this.level.coins.forEach(coin => {
+                if (!coin || !this.character.isColliding(coin)) return;
+                this.level.coins.splice(
+                    this.level.coins.indexOf(coin), 1
+                );
+                this.coinCounter.increase();
+                AudioHub.playOne(AudioHub.COIN);
+            });
+        }, 1000 / 60);
+    }
+
+    checkBottlePickups() {
+        setInterval(() => {
+            if (this.gameOver || this.gameWon) return;
+            this.level.bottles.forEach(bottle => {
+                if (!bottle || !this.character.isColliding(bottle)) return;
+                this.level.bottles.splice(
+                    this.level.bottles.indexOf(bottle), 1
+                );
+                this.bottleCounter.increase();
+                AudioHub.playOne(AudioHub.BOTTLE);
+            });
+        }, 1000 / 60);
+    }
+
+    checkThrowObjects() {
+        setInterval(() => {
+            if (this.gameOver || this.gameWon) return;
+            if (!this.keyboard.D || this.bottleCounter.count <= 0) return;
+            let bottle = new ThrowableObject(
+                this.character.x + 100,
+                this.character.y + 100
+            );
+            bottle.otherDirection = this.character.otherDirection;
+            this.throwableObjects.push(bottle);
+            this.bottleCounter.decrease();
+            this.keyboard.D = false;
+        }, 200);
+    }
+
+    checkBottleCollisions() {
+        setInterval(() => {
+            if (this.gameOver || this.gameWon) return;
+            this.throwableObjects.forEach(bottle => {
+                if (!bottle) return;
+                this.level.enemies.forEach(enemy => {
+                    if (bottle.isColliding(enemy))
+                        this.hitEnemy(enemy, bottle);
+                });
+            });
+        }, 1000 / 60);
+    }
+
+    hitEnemy(enemy, bottle) {
+        enemy.hit();
+        this.removeBottle(bottle);
+        if (enemy instanceof Endboss) {
+            this.bossHealthBar.setPercentage(enemy.energy);
+            if (enemy.isDead())
+                this.waitForBossDeath(enemy);
+        }
+    }
+
+    removeBottle(bottle) {
+        let index = this.throwableObjects.indexOf(bottle);
+        if (index !== -1)
+            this.throwableObjects.splice(index, 1);
+    }
+
+    waitForBossDeath(boss) {
+        let wait = setInterval(() => {
+            if (!boss.deadAnimationFinished) return;
+            clearInterval(wait);
+            setTimeout(() => {
+                AudioHub.playOne(AudioHub.BOSS_WIN);
+                this.gameWon = true;
+            }, 1500);
+        }, 50);
+    }
+
+    checkBossAppearance() {
+        setInterval(() => {
+            if (this.gameOver || this.gameWon) return;
+            let boss = this.getBoss();
+            if (!boss || this.character.x <= 2500) return;
+            if (this.bossIntroPlayed) return;
+            this.bossIntroPlayed = true;
+            AudioHub.playOne(AudioHub.BOSS_APPEAR);
+        }, 100);
+    }
+
+    getBoss() {
+        return this.level.enemies.find(
+            enemy => enemy instanceof Endboss
+        );
+    }
+
+    checkBossAttack() {
+        setInterval(() => {
+            if (this.gameOver || this.gameWon) return;
+            let boss = this.getBoss();
+            if (!boss || boss.isDeadAnimation) return;
+            let distance = Math.abs(this.character.x - boss.x);
+            if (distance <= 350 && !boss.isAttacking) {
+                boss.attack(this.character);
+                return;
+            }
+            this.moveBoss(boss);
+        }, 100);
+    }
+
+    moveBoss(boss) {
+        if (boss.patrolDirection === 'left') {
+            boss.moveLeft(3);
+            if (boss.x <= boss.minX)
+                boss.patrolDirection = 'right';
+            return;
+        }
+        boss.moveRight(3);
+        if (boss.x >= boss.maxX)
+            boss.patrolDirection = 'left';
+    }
+
+    checkPlayerDeath() {
+        if (!this.character.isDead() ||
+            this.gameOver || this.gameWon) return;
+        this.gameOver = true;
+        this.character.walking_sound.pause();
+        AudioHub.playOne(AudioHub.GAME_OVER);
+    }
 }

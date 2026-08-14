@@ -1,4 +1,4 @@
-@media (max-width: 720px) {
+@media (pointer: coarse), (max-width: 720px) {
     body {
         min-height: 100dvh;
         overflow: hidden;
@@ -82,6 +82,7 @@
 
     #restartButton,
     #menuButton {
+        display: none;
         position: fixed !important;
         top: auto !important;
         bottom: 20px !important;
@@ -99,9 +100,7 @@
         border: 3px solid #7a3d0b !important;
         border-radius: 8px !important;
         box-shadow: 0 4px 0 #542405 !important;
-        cursor: pointer;
         z-index: 30000 !important;
-        display: none;
     }
 
     #restartButton {
@@ -114,61 +113,50 @@
         transform: translateX(-50%) !important;
     }
 
-    #restartButton:hover,
-    #menuButton:hover {
-        transform: translateX(-50%) scale(1.05) !important;
+    body.game-ended #restartButton,
+    body.game-ended #menuButton {
+        display: block !important;
     }
 
-    #touchControls {
+    body.game-ended #touchControls {
         display: none !important;
     }
-}
 
-@media (max-width: 720px) {
     #touchControls {
         position: fixed !important;
         left: 0 !important;
         right: 0 !important;
-        bottom: 20px !important;
-
+        bottom: 18px !important;
+        width: 100% !important;
+        padding: 0 14px !important;
+        box-sizing: border-box !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
-
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 0 15px !important;
-
         z-index: 15000 !important;
         pointer-events: none !important;
     }
 
-    #touchControls button {
+    #touchControls > .touchRight {
         display: flex !important;
         align-items: center !important;
-        justify-content: center !important;
+        gap: 10px !important;
+    }
 
+    #touchControls button {
         width: 58px !important;
         height: 58px !important;
         min-width: 58px !important;
-
+        min-height: 58px !important;
         padding: 0 !important;
-
+        margin: 0 !important;
+        border: none !important;
         border-radius: 50% !important;
-        border: 3px solid #7a3d0b !important;
-
-        background: linear-gradient(
-            #ffc34d,
-            #d87913
-        ) !important;
-
-        color: #2b1707 !important;
-
-        font-size: 25px !important;
-        font-weight: bold !important;
-
-        box-shadow: 0 4px 0 #542405 !important;
-
+        background: transparent !important;
+        box-shadow: none !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
         pointer-events: auto !important;
         touch-action: none !important;
         user-select: none !important;
@@ -176,24 +164,16 @@
         -webkit-touch-callout: none !important;
     }
 
-    #touchControls .touchRight {
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
+    #touchControls button img {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+        object-fit: contain !important;
+        pointer-events: none !important;
     }
 
     #touchControls button:active {
         transform: scale(0.9) !important;
-        box-shadow: 0 1px 0 #542405 !important;
-    }
-
-    body.game-ended #touchControls {
-        display: none !important;
-    }
-
-    body.game-ended #restartButton,
-    body.game-ended #menuButton {
-        display: block !important;
     }
 }
 
@@ -214,19 +194,19 @@
     }
 
     #touchControls {
-        bottom: 18px !important;
-        padding: 0 12px !important;
+        bottom: 14px !important;
+        padding: 0 10px !important;
+    }
+
+    #touchControls > .touchRight {
+        gap: 6px !important;
     }
 
     #touchControls button {
         width: 52px !important;
         height: 52px !important;
         min-width: 52px !important;
-        font-size: 22px !important;
-    }
-
-    #touchControls .touchRight {
-        gap: 8px !important;
+        min-height: 52px !important;
     }
 
     #restartButton,
@@ -240,18 +220,19 @@
 
 @media (max-height: 600px) and (max-width: 720px) {
     #touchControls {
-        bottom: 10px !important;
+        bottom: 8px !important;
     }
 
     #touchControls button {
         width: 50px !important;
         height: 50px !important;
         min-width: 50px !important;
+        min-height: 50px !important;
     }
 
     #restartButton,
     #menuButton {
-        bottom: 10px !important;
+        bottom: 8px !important;
         height: 45px !important;
         font-size: 16px !important;
     }

@@ -19,6 +19,7 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="models/keyboard.class.js"></script>
+    <script src="models/touch-controls.class.js"></script>
     <script src="models/level.class.js"></script>
     <script src="models/status-bar.class.js"></script>
     <script src="models/throwable_object.class.js"></script>
@@ -58,48 +59,26 @@
     </div>
 
     <div id="instructionsOverlay" class="menuOverlay">
-        <div class="infoPanel">
-            <button class="closeButton" onclick="closeInstructions()"> ✕ </button>
-            <h2>SPIELANLEITUNG</h2>
-            <div class="infoContent">
-                <h3>DEINE AUFGABE</h3>
-                <p>
-                    Hilf El Pollo Loco durch das Level
-                    und sammle so viele Coins wie möglich.
-                </p>
-                <h3>COINS SAMMELN</h3>
-                <p>
-                    Sammle die Coins ein und erhöhe
-                    deinen Punktestand.
-                </p>
-                <h3>FLASCHEN SAMMELN</h3>
-                <p>
-                    Sammle Flaschen ein und benutze sie,
-                    um deine Gegner zu besiegen.
-                </p>
-                <h3>GEGNER</h3>
-                <p>
-                    Pass auf die Gegner auf und verliere
-                    nicht deine Leben.
-                </p>
-                <h3>BOSS</h3>
-                <p>
-                    Am Ende des Levels wartet der Boss
-                    auf dich. Besiege ihn, um das Level
-                    abzuschließen.
-                </p>
-                <h3>LEBEN</h3>
-                <p>
-                    Achte auf deine Lebensanzeige.
-                    Wenn du keine Leben mehr hast,
-                    ist das Spiel vorbei.
-                </p>
-            </div>
-            <button class="backButton" onclick="closeInstructions()">
-                ZURÜCK
-            </button>
+    <div class="infoPanel">
+        <button class="closeButton" onclick="closeInstructions()">✕</button>
+        <h2>SPIELANLEITUNG</h2>
+        <div class="infoContent">
+            <h3>DEINE AUFGABE</h3>
+            <p>Hilf El Pollo Loco durch das Level und sammle so viele Coins wie möglich.</p>
+            <h3>COINS SAMMELN</h3>
+            <p>Sammle die Coins ein und erhöhe deinen Punktestand.</p>
+            <h3>FLASCHEN SAMMELN</h3>
+            <p>Sammle Flaschen ein und benutze sie, um deine Gegner zu besiegen.</p>
+            <h3>GEGNER</h3>
+            <p>Pass auf die Gegner auf und verliere nicht deine Leben.</p>
+            <h3>BOSS</h3>
+            <p>Am Ende des Levels wartet der Boss auf dich. Besiege ihn, um das Level abzuschließen.</p>
+            <h3>LEBEN</h3>
+            <p>Achte auf deine Lebensanzeige. Wenn du keine Leben mehr hast, ist das Spiel vorbei.</p>
         </div>
+        <button class="backButton" onclick="closeInstructions()">ZURÜCK</button>
     </div>
+</div>
 
     <div id="controlsOverlay" class="menuOverlay">
         <div class="infoPanel">
@@ -133,77 +112,40 @@
 
     <div id="imprintOverlay" class="menuOverlay">
         <div class="infoPanel">
-            <button class="closeButton" onclick="closeImprint()">
-                ✕
-            </button>
+            <button class="closeButton" onclick="closeImprint()">✕</button>
             <h2>IMPRESSUM</h2>
             <div class="infoContent">
-                <p>
-                    <strong>El Pollo Loco</strong>
-                </p>
-                <p>
-                    Dies ist ein privates Softwareprojekt,
-                    das im Rahmen meiner Umschulung zum
-                    Fachinformatiker für Anwendungsentwicklung
-                    erstellt wurde.
-                </p>
-                <p>
-                    <strong>Projekt:</strong><br>
-                    El Pollo Loco – 2D Jump'n'Run
-                </p>
-                <p>
-                    <strong>Erstellt im Jahr:</strong><br>
-                    2026
-                </p>
-                <p>
-                    <strong>Zweck:</strong><br>
-                    Lern- und Demonstrationsprojekt zur
-                    Anwendung von HTML, CSS und JavaScript.
-                </p>
-                <p>
-                    Dieses Projekt dient ausschließlich
-                    zu Lern- und Demonstrationszwecken.
-                </p>
+                <p><strong>El Pollo Loco</strong></p>
+                <p>Dies ist ein privates Softwareprojekt, das im Rahmen meiner Umschulung zum Fachinformatiker für
+                    Anwendungsentwicklung erstellt wurde.</p>
+                <p><strong>Projekt:</strong><br>El Pollo Loco 2D Jump'n'Run</p>
+                <p><strong>Erstellt im Jahr:</strong><br>2026</p>
+                <p><strong>Zweck:</strong><br>Lern- und Demonstrationsprojekt zur Anwendung von HTML, CSS und
+                    JavaScript.</p>
+                <p>Dieses Projekt dient ausschließlich zu Lern- und Demonstrationszwecken.</p>
             </div>
-            <button class="backButton" onclick="closeImprint()">
-                ZURÜCK
-            </button>
+            <button class="backButton" onclick="closeImprint()">ZURÜCK</button>
         </div>
     </div>
 
     <div id="soundOverlay" class="menuOverlay">
         <div class="infoPanel soundPanel">
-            <button class="closeButton" onclick="closeSoundSettings()">
-                ✕
-            </button>
+            <button class="closeButton" onclick="closeSoundSettings()">✕</button>
             <h2>MUSIK-EINSTELLUNGEN</h2>
-            <button class="menuButton" id="soundToggleButton" onclick="toggleMusic()">
-                Musik: AN
-            </button>
-
+            <button class="menuButton" id="soundToggleButton" onclick="toggleMusic()">Musik: AN</button>
             <div class="volumeControl">
-                <label for="masterVolume">
-                    Gesamtlautstärke
-                </label>
+                <label for="masterVolume">Gesamtlautstärke</label>
                 <input id="masterVolume" type="range" min="0" max="1" step="0.1" value="1">
             </div>
-
             <div class="volumeControl">
-                <label for="musicVolume">
-                    Musik
-                </label>
+                <label for="musicVolume">Musik</label>
                 <input id="musicVolume" type="range" min="0" max="1" step="0.1" value="1">
             </div>
-
             <div class="volumeControl">
-                <label for="effectsVolume">
-                    Soundeffekte
-                </label>
+                <label for="effectsVolume">Soundeffekte</label>
                 <input id="effectsVolume" type="range" min="0" max="1" step="0.1" value="1">
             </div>
-            <button class="backButton" onclick="closeSoundSettings()">
-                ZURÜCK
-            </button>
+            <button class="backButton" onclick="closeSoundSettings()">ZURÜCK</button>
         </div>
     </div>
 
@@ -213,12 +155,15 @@
     <canvas id="canvas" width="720" height="480"></canvas>
 
     <div id="touchControls">
-        <button id="touchLeft">◀</button>
-        <button id="touchRight">▶</button>
-
+        <button id="touchLeft" class="touchBtn"><img src="img/El_pollo_Loco_Icon/btn-left.png"
+                alt="Nach links"></button>
+        <button id="touchRight" class="touchBtn"><img src="img/El_pollo_Loco_Icon/btn-right.png"
+                alt="Nach rechts"></button>
         <div class="touchRight">
-            <button id="touchJump">⬆</button>
-            <button id="touchThrow">🍾</button>
+            <button id="touchJump" class="touchBtn"><img src="img/El_pollo_Loco_Icon/btn-jump.png"
+                    alt="Springen"></button>
+            <button id="touchThrow" class="touchBtn"><img src="img/El_pollo_Loco_Icon/btn-throw.png"
+                    alt="Flasche werfen"></button>
         </div>
     </div>
 
