@@ -3,8 +3,9 @@ let world;
 let keyboard = new Keyboard();
 let touchControls;
 
-let musicOn = localStorage.getItem("musicOn") !== "false";
+let musicOn = false;
 let gameStarted = false;
+let gamePaused = false;
 
 let musicVolume = parseFloat(localStorage.getItem("musicVolume") || "1");
 let masterVolume = parseFloat(localStorage.getItem("masterVolume") || "1");
@@ -16,26 +17,64 @@ let gameMusic = new Audio("audio/SpielGame.mp3");
 startMusic.loop = true;
 gameMusic.loop = true;
 
-
 function init() {
     canvas = document.getElementById("canvas");
     touchControls = new TouchControls(keyboard);
-
+    musicOn = false;
+    localStorage.setItem("musicOn", "false");
     loadSoundSettings();
     setupVolumeControls();
     updateMusicIcon();
-
-    if (sessionStorage.getItem("restartGame") === "true") {
-        sessionStorage.removeItem("restartGame");
-        startGame();
-    }
+    AudioHub.muted = true;
 }
 
+function startGame() {
+
+    let restartButton = document.getElementById("restartButton");
+    let menuButton = document.getElementById("menuButton");
+    if (restartButton) restartButton.style.display = "none";
+    if (menuButton) menuButton.style.display = "none";
+    document.getElementById("startScreen").style.display = "none";
+    document.body.classList.remove("game-ended");
+    document.body.classList.add("game-started");
+    gameStarted = true;
+    gamePaused = false;
+    hideOverlay("pauseOverlay");
+    if (canvas) canvas.style.visibility = "visible";
+    stopMusic();
+    gameMusic.currentTime = 0;
+    if (musicOn) gameMusic.play();
+    if (world) world.destroy();
+    world = new World(canvas, keyboard);
+    world.gamePaused = false;
+}
+
+function togglePause() {
+    if (!gameStarted || document.body.classList.contains("game-ended")) return;
+
+    gamePaused = !gamePaused;
+
+    if (world) world.gamePaused = gamePaused;
+
+    let overlay = document.getElementById("pauseOverlay");
+
+    if (overlay) {
+        overlay.style.display = gamePaused ? "flex" : "none";
+    }
+
+    if (gamePaused) {
+        keyboard.LEFT = false;
+        keyboard.RIGHT = false;
+        keyboard.UP = false;
+        keyboard.DOWN = false;
+        keyboard.SPACE = false;
+        keyboard.D = false;
+    }
+}
 
 function loadSoundSettings() {
     AudioHub.masterVolume = masterVolume;
     AudioHub.effectsVolume = effectsVolume;
-
     updateMusicVolume();
 
     let master = document.getElementById("masterVolume");
@@ -47,74 +86,55 @@ function loadSoundSettings() {
     if (effects) effects.value = effectsVolume;
 }
 
-
-function startGame() {
-    document.getElementById("startScreen").style.display = "none";
-    document.body.classList.remove("game-ended");
-    document.body.classList.add("game-started");
-
-    if (canvas) {
-        canvas.style.visibility = "visible";
-    }
-
-    gameStarted = true;
-
-    stopMusic();
-    gameMusic.currentTime = 0;
-
-    if (musicOn) {
-        gameMusic.play();
-    }
-
-    world = new World(canvas, keyboard);
-}
-
-
 function toggleMusic() {
     musicOn = !musicOn;
     localStorage.setItem("musicOn", musicOn);
-    updateMusic();
-}
-
-
-function updateMusicIcon() {
-    let icon = document.getElementById("musicIcon");
-
-    if (!icon) return;
-
-    icon.src = musicOn
-        ? "img/El_pollo_Loco_Icon/SoundAn.jpg"
-        : "img/El_pollo_Loco_Icon/SoundAus.jpg";
-}
-
-
-function updateMusic() {
+    AudioHub.muted = !musicOn;
     updateMusicIcon();
 
     if (musicOn) {
-        playCurrentMusic();
+        gameStarted ? gameMusic.play() : startMusic.play();
     } else {
         stopMusic();
     }
 }
 
+function updateMusicIcon() {
+    let icon = document.getElementById("musicIcon");
+    let soundButton = document.getElementById("soundToggleButton");
+    let menuButton = document.querySelector(
+        '#startScreen button[onclick="openSoundSettings()"]'
+    );
 
-function playCurrentMusic() {
-    if (!musicOn) return;
+    if (icon) {
+        icon.src = musicOn
+            ? "img/El_pollo_Loco_Icon/SoundAn.jpg"
+            : "img/El_pollo_Loco_Icon/SoundAus.jpg";
+    }
 
-    if (gameStarted) {
-        gameMusic.play();
-    } else {
-        startMusic.play();
+    if (soundButton) {
+        soundButton.textContent = musicOn ? "MUSIK: AN" : "MUSIK: AUS";
+    }
+
+    if (menuButton) {
+        menuButton.textContent = musicOn ? "SOUND: AN" : "SOUND: AUS";
     }
 }
 
+function updateMusic() {
+    updateMusicIcon();
+    musicOn ? playCurrentMusic() : stopMusic();
+}
+
+function playCurrentMusic() {
+    if (!musicOn || gamePaused) return;
+    gameStarted ? gameMusic.play() : startMusic.play();
+}
 
 function stopMusic() {
     startMusic.pause();
     gameMusic.pause();
 }
-
 
 function setupVolumeControls() {
     let master = document.getElementById("masterVolume");
@@ -147,63 +167,89 @@ function setupVolumeControls() {
     }
 }
 
-
 function updateMusicVolume() {
     let volume = musicVolume * masterVolume;
-
     startMusic.volume = volume * 0.2;
     gameMusic.volume = volume * 0.2;
 }
 
-
 function restartGame() {
-    sessionStorage.setItem("restartGame", "true");
-    location.reload();
+    if (world) world.destroy();
+    startGame();
 }
-
 
 function backToMenu() {
-    document.body.classList.remove("game-ended", "game-started");
-
-    document.getElementById("restartButton").style.display = "none";
-    document.getElementById("menuButton").style.display = "none";
-
+    gamePaused = false;
     gameStarted = false;
+
+    document.body.classList.remove("game-ended", "game-started");
+    hideOverlay("pauseOverlay");
+
+    let restartButton = document.getElementById("restartButton");
+    let menuButton = document.getElementById("menuButton");
+
+    if (restartButton) restartButton.style.display = "none";
+    if (menuButton) menuButton.style.display = "none";
+
     stopMusic();
-    location.reload();
+
+    if (world) {
+        world.destroy();
+        world = null;
+    }
+
+    document.getElementById("startScreen").style.display = "flex";
+
+    if (canvas) canvas.style.visibility = "hidden";
 }
 
-
-
-window.addEventListener("keydown", (e) => {
-    setKeyState(e.keyCode, true);
-
-    if (e.keyCode == 32) {
+window.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
         e.preventDefault();
+        handleEscape();
+        return;
     }
+
+    if (e.keyCode === 32) {
+        e.preventDefault();
+        if (e.repeat) return;
+        keyboard.SPACE = true;
+        return;
+    }
+
+    setKeyState(e.keyCode, true);
 });
 
-
-window.addEventListener("keyup", (e) => {
+window.addEventListener("keyup", e => {
     setKeyState(e.keyCode, false);
 
-    if (e.keyCode == 32) {
+    if (e.keyCode === 32) {
         e.preventDefault();
     }
 });
 
-
 function setKeyState(keyCode, pressed) {
-    if (keyCode == 39) keyboard.RIGHT = pressed;
-    if (keyCode == 37) keyboard.LEFT = pressed;
-    if (keyCode == 38) keyboard.UP = pressed;
-    if (keyCode == 40) keyboard.DOWN = pressed;
-    if (keyCode == 32) keyboard.SPACE = pressed;
-    if (keyCode == 68) keyboard.D = pressed;
+    if (keyCode === 39) keyboard.RIGHT = pressed;
+    if (keyCode === 37) keyboard.LEFT = pressed;
+    if (keyCode === 38) keyboard.UP = pressed;
+    if (keyCode === 40) keyboard.DOWN = pressed;
+    if (keyCode === 32) keyboard.SPACE = pressed;
+    if (keyCode === 68) keyboard.D = pressed;
 }
 
+function handleEscape() {
+    if (isOverlayOpen("instructionsOverlay")) return closeInstructions();
+    if (isOverlayOpen("controlsOverlay")) return closeControls();
+    if (isOverlayOpen("imprintOverlay")) return closeImprint();
+    if (isOverlayOpen("soundOverlay")) return closeSoundSettings();
+    if (gameStarted) togglePause();
+}
 
-// Overlays
+function isOverlayOpen(id) {
+    let overlay = document.getElementById(id);
+    return overlay && overlay.style.display === "flex";
+}
+
 function openInstructions() {
     showOverlay("instructionsOverlay");
 }
@@ -218,6 +264,26 @@ function openControls() {
 
 function closeControls() {
     hideOverlay("controlsOverlay");
+    if (gamePaused) showOverlay("pauseOverlay");
+}
+
+function openSoundSettings() {
+    showOverlay("soundOverlay");
+}
+
+function closeSoundSettings() {
+    hideOverlay("soundOverlay");
+    if (gamePaused) showOverlay("pauseOverlay");
+}
+
+function openPauseControls() {
+    hideOverlay("pauseOverlay");
+    showOverlay("controlsOverlay");
+}
+
+function openPauseSound() {
+    hideOverlay("pauseOverlay");
+    showOverlay("soundOverlay");
 }
 
 function openImprint() {
@@ -228,21 +294,12 @@ function closeImprint() {
     hideOverlay("imprintOverlay");
 }
 
-function openSoundSettings() {
-    showOverlay("soundOverlay");
-}
-
-function closeSoundSettings() {
-    hideOverlay("soundOverlay");
-}
-
-
 function showOverlay(id) {
-    document.getElementById(id).style.display = "flex";
+    let overlay = document.getElementById(id);
+    if (overlay) overlay.style.display = "flex";
 }
-
 
 function hideOverlay(id) {
-    document.getElementById(id).style.display = "none";
+    let overlay = document.getElementById(id);
+    if (overlay) overlay.style.display = "none";
 }
-

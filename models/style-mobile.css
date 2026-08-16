@@ -1,13 +1,18 @@
+#rotateScreen {
+    display: none;
+}
+
 @media (pointer: coarse), (max-width: 720px) {
+
     body {
         min-height: 100dvh;
     }
 
     canvas {
-        width: 100vw !important;
+        width: 80vw !important;
         height: auto !important;
         max-width: 720px;
-        max-height: 100dvh;
+        max-height: 85dvh;
     }
 
     #musicButton {
@@ -19,26 +24,28 @@
 
     #startScreen,
     .menuOverlay {
-        width: 100vw !important;
-        height: 100dvh !important;
+        overflow: hidden !important;
     }
 
     .menuPanel {
         width: 88vw !important;
         max-width: 430px !important;
-        min-height: auto !important;
-        padding: 20px !important;
+        max-height: 90dvh !important;
+        padding: 14px !important;
+        gap: 8px !important;
+        overflow: hidden !important;
     }
 
     .gameTitle {
-        font-size: 38px !important;
-        margin-bottom: 18px !important;
+        margin-bottom: 8px !important;
+        font-size: 36px !important;
     }
 
     .menuButton {
         width: 85% !important;
-        min-height: 48px !important;
-        font-size: 21px !important;
+        min-height: 44px !important;
+        height: 44px !important;
+        font-size: 20px !important;
     }
 
     .infoPanel {
@@ -63,28 +70,49 @@
         position: fixed !important;
         left: 0 !important;
         right: 0 !important;
-        bottom: 18px !important;
+        bottom: 8px !important;
         width: 100% !important;
-        padding: 0 14px !important;
-        display: flex !important;
-        justify-content: space-between !important;
+        padding: 0 18px !important;
+        display: none !important;
         align-items: center !important;
+        justify-content: space-between !important;
         z-index: 15000 !important;
+        pointer-events: none !important;
+        box-sizing: border-box !important;
+    }
+
+    body.game-started #touchControls {
+        display: flex !important;
+    }
+
+    body.game-ended #touchControls {
+        display: none !important;
+        visibility: hidden !important;
         pointer-events: none !important;
     }
 
-    #touchControls > .touchRight {
-        display: flex !important;
-        gap: 10px !important;
+    #touchControls #touchLeft,
+    #touchControls #touchRight,
+    #touchControls #touchJump,
+    #touchControls #touchThrow {
+        width: 54px !important;
+        height: 54px !important;
+        min-width: 54px !important;
+        min-height: 54px !important;
+    }
+
+    #touchControls #touchLeft,
+    #touchControls #touchRight,
+    #touchControls #touchJump {
+        margin: 0 4px !important;
+    }
+
+    #touchControls #touchThrow {
+        margin: 0 0 0 auto !important;
     }
 
     #touchControls button {
-        width: 58px !important;
-        height: 58px !important;
-        min-width: 58px !important;
-        min-height: 58px !important;
         padding: 0 !important;
-        margin: 0 !important;
         border: 0 !important;
         border-radius: 50% !important;
         background: transparent !important;
@@ -103,8 +131,8 @@
     #touchControls button img {
         width: 100% !important;
         height: 100% !important;
-        display: block !important;
         object-fit: contain !important;
+        display: block !important;
         pointer-events: none !important;
     }
 
@@ -112,74 +140,168 @@
         transform: scale(.9) !important;
     }
 
-    body.game-ended #touchControls {
-        display: none !important;
+    body.game-ended #canvas {
+        width: 70vw !important;
+        height: auto !important;
+        max-width: 650px !important;
+        max-height: 75dvh !important;
     }
 
-    #restartButton,
-    #menuButton {
-        bottom: 20px !important;
-        width: 42vw !important;
-        max-width: 180px !important;
-        height: 50px !important;
-        font-size: 18px !important;
+    body.game-ended #restartButton,
+    body.game-ended #menuButton {
+        width: 20vw !important;
+        max-width: 115px !important;
+        height: 36px !important;
+        font-size: 11px !important;
+        z-index: 25000 !important;
+        touch-action: manipulation !important;
+        bottom: 4px !important;
     }
 
-    #restartButton {
-        left: 27% !important;
+    body.game-ended #restartButton {
+        left: 40% !important;
         transform: translateX(-50%) !important;
     }
 
-    #menuButton {
-        left: 73% !important;
+    body.game-ended #menuButton {
+        left: 60% !important;
         transform: translateX(-50%) !important;
+    }
+
+    #pauseOverlay .infoPanel {
+        width: 65vw !important;
+        max-width: 420px !important;
+        padding: 16px !important;
+    }
+
+    #pauseOverlay .infoPanel h2 {
+        font-size: 28px !important;
+        margin: 0 0 16px !important;
+    }
+
+    #pauseOverlay .menuButton {
+        width: 65% !important;
+        height: 36px !important;
+        min-height: 36px !important;
+        margin: 7px auto !important;
+        font-size: 14px !important;
+    }
+
+    #pauseOverlay .backButton {
+        width: 40% !important;
+        height: 40px !important;
+        margin: 16px auto 0 !important;
+        font-size: 13px !important;
+    }
+
+    .menuOverlay {
+        z-index: 20000 !important;
+    }
+
+    #controlsOverlay .infoPanel,
+    #soundOverlay .infoPanel,
+    #imprintOverlay .infoPanel {
+        width: 72vw !important;
+        max-width: 500px !important;
+        padding: 18px !important;
+    }
+
+    #controlsOverlay .infoPanel h2,
+    #soundOverlay .infoPanel h2 {
+        font-size: 28px !important;
+        margin-bottom: 16px !important;
+    }
+
+    #controlsOverlay .controlRow {
+        grid-template-columns: 1fr 1fr !important;
+        min-height: 42px !important;
+        font-size: 14px !important;
+    }
+
+    #controlsOverlay .backButton,
+    #soundOverlay .backButton,
+    #imprintOverlay .backButton {
+        width: 40% !important;
+        height: 40px !important;
+        margin-top: 16px !important;
+        font-size: 13px !important;
+    }
+
+    #soundOverlay .soundPanel {
+        width: 72vw !important;
+    }
+
+    #soundOverlay .menuButton {
+        width: 65% !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        margin: 8px auto !important;
+        font-size: 14px !important;
+    }
+
+    #soundOverlay .volumeControl {
+        margin: 12px 0 !important;
+    }
+
+    #imprintOverlay .infoPanel {
+        max-height: 80dvh !important;
+    }
+
+    #imprintOverlay .infoPanel h2 {
+        font-size: 28px !important;
+    }
+
+    #imprintOverlay .infoPanel h3 {
+        font-size: 20px !important;
+    }
+
+    #imprintOverlay .infoPanel p {
+        font-size: 14px !important;
+        line-height: 1.4 !important;
     }
 }
 
 @media (max-width: 390px) {
+
     .menuPanel {
         width: 92vw !important;
-        padding: 15px !important;
+        max-height: 95dvh !important;
+        padding: 12px !important;
+        gap: 6px !important;
     }
 
     .gameTitle {
-        font-size: 34px !important;
+        font-size: 32px !important;
+        margin-bottom: 5px !important;
     }
 
     .menuButton {
         width: 90% !important;
-        min-height: 45px !important;
-        font-size: 19px !important;
+        min-height: 40px !important;
+        height: 40px !important;
+        font-size: 18px !important;
     }
 
-    #touchControls {
-        bottom: 14px !important;
-        padding: 0 10px !important;
+    .infoPanel {
+        width: 94vw !important;
+        padding: 16px !important;
     }
 
-    #touchControls > .touchRight {
-        gap: 6px !important;
+    .infoPanel h2 {
+        font-size: 29px !important;
     }
 
-    #touchControls button {
-        width: 52px !important;
-        height: 52px !important;
-        min-width: 52px !important;
-        min-height: 52px !important;
+    .infoPanel h3 {
+        font-size: 23px !important;
     }
 
-    #restartButton,
-    #menuButton {
-        width: 43vw !important;
-        max-width: 165px !important;
-        height: 48px !important;
-        font-size: 16px !important;
+    .infoPanel p {
+        font-size: 15px !important;
     }
-}
 
-@media (max-height: 600px) and (max-width: 720px) {
     #touchControls {
         bottom: 8px !important;
+        padding: 0 10px !important;
     }
 
     #touchControls button {
@@ -189,10 +311,132 @@
         min-height: 50px !important;
     }
 
-    #restartButton,
-    #menuButton {
-        bottom: 8px !important;
-        height: 45px !important;
-        font-size: 16px !important;
+    body.game-ended #canvas {
+        width: 68vw !important;
+        max-height: 72dvh !important;
+    }
+
+    body.game-ended #restartButton,
+    body.game-ended #menuButton {
+        width: 25vw !important;
+        max-width: 120px !important;
+        height: 38px !important;
+        font-size: 12px !important;
+    }
+}
+
+@media (orientation: landscape) and (pointer: coarse) and (max-width: 720px) {
+
+    canvas {
+        width: 65vw !important;
+        height: auto !important;
+        max-width: 520px;
+        max-height: 80dvh;
+    }
+
+    body.game-ended #canvas {
+        width: 70vw !important;
+        max-width: 650px !important;
+        max-height: 75dvh !important;
+    }
+
+    body.game-ended #restartButton,
+    body.game-ended #menuButton {
+        width: 20vw !important;
+        max-width: 115px !important;
+        height: 36px !important;
+        font-size: 11px !important;
+        bottom: 4px !important;
+    }
+
+    body.game-ended #restartButton {
+        left: 40% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    body.game-ended #menuButton {
+        left: 60% !important;
+        transform: translateX(-50%) !important;
+    }
+
+    #touchControls {
+        bottom: 5px !important;
+    }
+
+    #touchControls button {
+        width: 54px !important;
+        height: 54px !important;
+        min-width: 54px !important;
+        min-height: 54px !important;
+    }
+
+    #pauseOverlay .infoPanel {
+        width: 60vw !important;
+        max-width: 420px !important;
+        padding: 14px !important;
+    }
+
+    #pauseOverlay .infoPanel h2 {
+        font-size: 27px !important;
+        margin-bottom: 12px !important;
+    }
+
+    #pauseOverlay .menuButton {
+        width: 68% !important;
+        height: 34px !important;
+        min-height: 34px !important;
+        margin: 6px auto !important;
+        font-size: 14px !important;
+    }
+
+    #pauseOverlay .backButton {
+        width: 40% !important;
+        height: 38px !important;
+        margin: 14px auto 0 !important;
+        font-size: 13px !important;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 720px) {
+
+    #rotateScreen {
+        position: fixed !important;
+        inset: 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(0, 0, 0, .92) !important;
+        z-index: 50000 !important;
+    }
+
+    .rotatePanel {
+        width: 85vw !important;
+        max-width: 400px !important;
+        padding: 30px 20px !important;
+        text-align: center !important;
+        background: #1c1009 !important;
+        border: 4px solid #d99524 !important;
+        border-radius: 20px !important;
+        box-shadow: 0 8px 0 #71350f !important;
+    }
+
+    .rotateIcon {
+        font-size: 60px !important;
+        margin-bottom: 15px !important;
+    }
+
+    .rotatePanel h2 {
+        margin: 0 0 15px !important;
+        color: #f5a623 !important;
+        font-family: "Bangers", cursive !important;
+        font-size: 34px !important;
+        text-shadow: 3px 3px 0 #71350f !important;
+    }
+
+    .rotatePanel p {
+        margin: 0 !important;
+        color: white !important;
+        font-size: 18px !important;
+        line-height: 1.5 !important;
     }
 }

@@ -66,7 +66,6 @@ function createLevel1() {
     coins[coins.length - 1].x = 950;
     coins[coins.length - 1].y = 350;
 
-
     coins.push(new Coin());
     coins[coins.length - 1].x = 1100;
     coins[coins.length - 1].y = 300;
@@ -87,7 +86,6 @@ function createLevel1() {
     coins[coins.length - 1].x = 1300;
     coins[coins.length - 1].y = 300;
 
-
     coins.push(new Coin());
     coins[coins.length - 1].x = 1450;
     coins[coins.length - 1].y = 350;
@@ -99,7 +97,6 @@ function createLevel1() {
     coins.push(new Coin());
     coins[coins.length - 1].x = 1550;
     coins[coins.length - 1].y = 350;
-
 
     coins.push(new Coin());
     coins[coins.length - 1].x = 1700;
@@ -124,6 +121,7 @@ function createLevel1() {
     coins.push(new Coin());
     coins[coins.length - 1].x = 2100;
     coins[coins.length - 1].y = 350;
+
 
     let bottle1 = new Bottle();
     bottle1.x = 250;
@@ -151,7 +149,10 @@ function createLevel1() {
 
     let bottle9 = new Bottle();
     bottle9.x = 2650;
+
+
     return new Level(
+
         [
             chicken1,
             chicken2,
@@ -162,43 +163,150 @@ function createLevel1() {
             chicken7,
             endboss
         ],
+
         [
             new Cloud()
         ],
+
         [
             bird1
         ],
+
         coins,
+
         [
-            new BackgroundObject("img/5_background/layers/air.png", -720),
-            new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -720),
-            new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -720),
-            new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -720),
 
-            new BackgroundObject("img/5_background/layers/air.png", 0),
-            new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
-            new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
-            new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0),
+            // Hintergrund 1
+            new BackgroundObject(
+                "img/5_background/layers/air.png",
+                -720
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/3_third_layer/2.png",
+                -720
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/2_second_layer/2.png",
+                -720
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/1_first_layer/2.png",
+                -720
+            ),
 
-            new BackgroundObject("img/5_background/layers/air.png", 720),
-            new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 720),
-            new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 720),
-            new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 720),
 
-            new BackgroundObject("img/5_background/layers/air.png", 1440),
-            new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 1440),
-            new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 1440),
-            new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 1440),
+            // Hintergrund 2
+            new BackgroundObject(
+                "img/5_background/layers/air.png",
+                0
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/3_third_layer/1.png",
+                0
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/2_second_layer/1.png",
+                0
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/1_first_layer/1.png",
+                0
+            ),
 
-            new BackgroundObject("img/5_background/layers/air.png", 2160),
-            new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 2160),
-            new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 2160),
-            new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 2160),
 
-            new BackgroundObject("img/5_background/layers/air.png", 2880),
-            new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 2880),
-            new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 2880),
-            new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 2880)
+            // Hintergrund 3
+            new BackgroundObject(
+                "img/5_background/layers/air.png",
+                720
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/3_third_layer/2.png",
+                720
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/2_second_layer/2.png",
+                720
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/1_first_layer/2.png",
+                720
+            ),
+
+
+            // Hintergrund 4
+            new BackgroundObject(
+                "img/5_background/layers/air.png",
+                1440
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/3_third_layer/1.png",
+                1440
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/2_second_layer/1.png",
+                1440
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/1_first_layer/1.png",
+                1440
+            ),
+
+
+            // Hintergrund 5
+            new BackgroundObject(
+                "img/5_background/layers/air.png",
+                2160
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/3_third_layer/2.png",
+                2160
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/2_second_layer/2.png",
+                2160
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/1_first_layer/2.png",
+                2160
+            ),
+
+
+            // Hintergrund 6
+            new BackgroundObject(
+                "img/5_background/layers/air.png",
+                2880
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/3_third_layer/1.png",
+                2880
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/2_second_layer/1.png",
+                2880
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/1_first_layer/1.png",
+                2880
+            ),
+
+
+            // Hintergrund 7 - neu
+            new BackgroundObject(
+                "img/5_background/layers/air.png",
+                3600
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/3_third_layer/2.png",
+                3600
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/2_second_layer/2.png",
+                3600
+            ),
+            new BackgroundObject(
+                "img/5_background/layers/1_first_layer/2.png",
+                3600
+            )
         ],
 
         [

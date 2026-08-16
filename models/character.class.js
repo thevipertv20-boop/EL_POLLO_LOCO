@@ -2,7 +2,7 @@ class Character extends MovableObject {
 
     height = 250;
     y = 80;
-    speed = 10;
+    speed = 5;
     currentImage = 0;
 
     IMAGES_WALKING = [
@@ -43,40 +43,67 @@ class Character extends MovableObject {
     ];
 
     world;
-    walking_sound = new Audio('audio/freesound_community-sand-walk-106366.mp3');
+
+    walking_sound = new Audio(
+        'audio/freesound_community-sand-walk-106366.mp3'
+    );
 
     constructor() {
         super();
+
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_JUMPING);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
+
         this.walking_sound.volume = 0.2;
+        this.walking_sound.loop = true;
+
         this.applyGravity();
         this.animate();
     }
 
+
     animate() {
+        // Bewegung
         setInterval(() => {
-            if (!this.world || this.isDead()) return;
-            this.walking_sound.pause();
+            if (!this.world || this.world.gamePaused || this.isDead()) {
+                return;
+            }
+
+            let isWalking = false;
+
+            // Nach rechts
             if (
                 this.world.keyboard.RIGHT &&
-                this.x < this.world.level.level_end_x
+                this.x < this.world.level.level_end_x - this.width
             ) {
                 this.moveRight();
                 this.otherDirection = false;
-                this.walking_sound.play();
+                isWalking = true;
             }
+
+            // Nach links
             if (
                 this.world.keyboard.LEFT &&
                 this.x > 0
             ) {
                 this.moveLeft();
                 this.otherDirection = true;
-                this.walking_sound.play();
+                isWalking = true;
             }
+
+            // Laufgeräusch
+            if (isWalking) {
+                if (this.walking_sound.paused) {
+                    this.walking_sound.play();
+                }
+            } else {
+                this.walking_sound.pause();
+            }
+
+            // Springen
             if (
                 this.world.keyboard.SPACE &&
                 !this.isAboveGround()
@@ -84,27 +111,40 @@ class Character extends MovableObject {
                 this.jump();
                 this.world.keyboard.SPACE = false;
             }
+
+            // Kamera
             this.world.camera_x = -this.x + 100;
+
         }, 1000 / 60);
 
+
+        // Animation
         setInterval(() => {
-            if (!this.world) return;
+            if (!this.world || this.world.gamePaused) {
+                return;
+            }
+
             if (this.isDead()) {
                 this.playAnimation(this.IMAGES_DEAD);
+
             } else if (this.isHurt()) {
                 this.playAnimation(this.IMAGES_HURT);
+
             } else if (this.isAboveGround()) {
                 this.playAnimation(this.IMAGES_JUMPING);
+
             } else if (
                 this.world.keyboard.RIGHT ||
                 this.world.keyboard.LEFT
             ) {
                 this.playAnimation(this.IMAGES_WALKING);
             }
+
         }, 50);
     }
 
+
     jump() {
-        this.speedY = 20;
+        this.speedY = 23;
     }
 }

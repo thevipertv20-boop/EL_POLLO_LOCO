@@ -14,15 +14,16 @@ class TouchControls {
 
     addButton(id, key) {
         let button = document.getElementById(id);
+
         if (!button) return;
 
         button.addEventListener('pointerdown', (e) => {
             e.preventDefault();
-            button.setPointerCapture(e.pointerId);
             this.keyboard[key] = true;
         });
 
-        button.addEventListener('pointerup', () => {
+        button.addEventListener('pointerup', (e) => {
+            e.preventDefault();
             this.keyboard[key] = false;
         });
 
@@ -30,10 +31,12 @@ class TouchControls {
             this.keyboard[key] = false;
         });
 
-        button.addEventListener('lostpointercapture', () => {
+        button.addEventListener('pointerleave', () => {
             this.keyboard[key] = false;
         });
 
-        button.addEventListener('contextmenu', (e) => e.preventDefault());
+        button.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
     }
 }
