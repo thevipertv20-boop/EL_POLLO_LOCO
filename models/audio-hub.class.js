@@ -7,17 +7,12 @@ class AudioHub {
     static CHICKEN_DEAD = new Audio("audio/Chicken_tot.mp3");
     static BOSS_WIN = new Audio("audio/Boss_sieg_ende.mp3");
     static GAME_OVER = new Audio("audio/Game_Over.mp3");
-
     static masterVolume = 1;
     static effectsVolume = 1;
-
-    // NEU: zentraler Mute-Schalter, den game.js setzt.
-    // Vorher hat der Mute-Button NUR die Musik (startMusic/gameMusic)
-    // gestoppt - alle AudioHub-Sounds (Coin, Flasche, Chicken, Boss ...)
-    // liefen unabhängig davon einfach weiter.
     static muted = false;
-
     static allSounds = [
+
+        
         AudioHub.COIN,
         AudioHub.BOTTLE,
         AudioHub.BOSS_HIT,
@@ -29,12 +24,9 @@ class AudioHub {
 
     static playOne(sound) {
         if (AudioHub.muted) return;
-
         const audio = sound.cloneNode();
-
         audio.volume = AudioHub.masterVolume *
             AudioHub.effectsVolume * 0.5;
-
         audio.currentTime = 0;
         audio.play();
     }

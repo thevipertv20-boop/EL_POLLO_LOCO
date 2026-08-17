@@ -16,12 +16,8 @@ class World {
     coinCounter;
     healthBar;
     bossHealthBar;
-
-    // NEU: sammelt alle setInterval-IDs, damit destroy() sie stoppen kann.
     intervalIds = [];
     destroyed = false;
-
-    // NEU: Cooldown-Timestamp fürs Flaschenwerfen (ersetzt den 200ms-Poll).
     lastThrowTime = 0;
 
     constructor(canvas, keyboard) {
@@ -42,10 +38,6 @@ class World {
         this.checkPlayerDeath();
     }
 
-    // NEU: räumt alle laufenden Intervals auf. Wird bei jedem Neustart /
-    // Rückkehr zum Menü aufgerufen, BEVOR eine neue World erzeugt wird.
-    // Ohne das würden bei jedem Neustart (ohne Seiten-Reload) zusätzliche
-    // Kollisions-/Coin-/Boss-Loops im Hintergrund weiterlaufen.
     destroy() {
         this.destroyed = true;
         this.intervalIds.forEach(id => clearInterval(id));
@@ -75,11 +67,7 @@ class World {
     }
 
     draw() {
-        // NEU: sobald destroy() aufgerufen wurde, keine weiteren Frames
-        // mehr zeichnen (verhindert, dass eine alte World nach dem
-        // Neustart im Hintergrund weiterzeichnet).
         if (this.destroyed) return;
-
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
@@ -179,66 +167,34 @@ class World {
         this.intervalIds.push(id);
     }
 
-    /**
- * Prüft die Kollision zwischen Pepe und einem Chicken.
- *
- * Pepe bekommt nur Schaden bei einer seitlichen Kollision.
- * Wenn Pepe von oben auf das Chicken trifft, wird das Chicken
- * getötet und Pepe bekommt keinen Schaden.
- */
 handleChicken(enemy) {
     if (enemy.isDead()) return;
-
-    // ==========================================
-    // PEPE-HITBOX
-    // ==========================================
-
     const characterLeft =
         this.character.x + 35;
-
     const characterRight =
         this.character.x +
         this.character.width - 35;
-
     const characterTop =
         this.character.y + 10;
-
     const characterBottom =
         this.character.y +
         this.character.height;
-
-
-    // ==========================================
-    // HUHN-HITBOX
-    // ==========================================
-
     const chickenLeft =
         enemy.x + 10;
-
     const chickenRight =
         enemy.x +
         enemy.width - 10;
-
     const chickenTop =
         enemy.y;
-
     const chickenBottom =
         enemy.y +
         enemy.height;
-
-
-    // ==========================================
-    // ECHTE KOLLISION X + Y
-    // ==========================================
-
     const horizontalCollision =
         characterRight > chickenLeft &&
         characterLeft < chickenRight;
-
     const verticalCollision =
         characterBottom > chickenTop &&
         characterTop < chickenBottom;
-
     if (
         !horizontalCollision ||
         !verticalCollision
@@ -246,14 +202,8 @@ handleChicken(enemy) {
         return;
     }
 
-
-    // ==========================================
-    // PEPE KOMMT VON OBEN
-    // ==========================================
-
     const isFalling =
         this.character.speedY < 0;
-
     const isAboveChicken =
         characterBottom <=
         chickenTop + 50;
@@ -262,35 +212,21 @@ handleChicken(enemy) {
         isFalling &&
         isAboveChicken
     ) {
-
         enemy.hit();
-
         if (enemy.isDead()) {
             AudioHub.playOne(
                 AudioHub.CHICKEN_DEAD
             );
         }
 
-        // KEIN automatischer Sprung
-        // KEIN speedY = 15
-        // KEIN Verschieben von Pepe
-
         return;
     }
 
-
-    // ==========================================
-    // SEITLICHE KOLLISION
-    // ==========================================
-
     if (!this.character.isHurt()) {
-
         this.character.hit();
-
         this.healthBar.setPercentage(
             this.character.energy
         );
-
         this.checkPlayerDeath();
     }
 }
@@ -298,26 +234,21 @@ handleChicken(enemy) {
     handleBoss(enemy) {
     if (enemy.isDeadAnimation || !enemy.isAttacking) return;
     if (this.character.isHurt()) return;
-
     this.character.hit();
-
     this.healthBar.setPercentage(
         this.character.energy
     );
 
-    // Rückstoß durch den Boss
     if (this.character.x < enemy.x) {
         this.character.x -= 80;
     } else {
         this.character.x += 80;
     }
 
-    // Linke Levelgrenze
     if (this.character.x < 0) {
         this.character.x = 0;
     }
 
-    // Rechte Levelgrenze
     const maxX =
         this.level.level_end_x -
         this.character.width;
@@ -327,7 +258,6 @@ handleChicken(enemy) {
     }
 
     this.character.speedY = 15;
-
     this.checkPlayerDeath();
 }
 
@@ -378,14 +308,6 @@ handleChicken(enemy) {
         this.intervalIds.push(id);
     }
 
-    /**
-     * Fix: lief vorher nur alle 200ms. Ein kurzer Touch-Tap (< 200ms
-     * gehalten) konnte dadurch komplett übersehen werden, weil keyboard.D
-     * schon wieder auf false stand, bevor der Poll überhaupt lief -
-     * daher musste man auf Mobilgeräten mehrfach drücken.
-     * Jetzt: Poll im 60fps-Takt wie die anderen Checks, Mehrfachwürfe
-     * werden stattdessen über einen Zeit-Cooldown verhindert.
-     */
     checkThrowObjects() {
         const id = setInterval(() => {
             if (this.destroyed) return;
