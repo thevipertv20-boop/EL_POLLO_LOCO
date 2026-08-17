@@ -65,6 +65,7 @@ class Character extends MovableObject {
     animate() {
         setInterval(() => {
             if (!this.world || this.world.gamePaused || this.isDead()) {
+                this.walking_sound.pause();
                 return;
             }
             let isWalking = false;
@@ -84,7 +85,7 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                 isWalking = true;
             }
-            if (isWalking) {
+            if (isWalking && !AudioHub.muted) {
                 if (this.walking_sound.paused) {
                     this.walking_sound.play();
                 }

@@ -153,73 +153,75 @@ function createLevel1() {
 
     return new Level(
 
-        [
-            chicken1,
-            chicken2,
-            chicken3,
-            chicken4,
-            chicken5,
-            chicken6,
-            chicken7,
-            endboss
-        ],
+    [
+        chicken1,
+        chicken2,
+        chicken3,
+        chicken4,
+        chicken5,
+        chicken6,
+        chicken7,
+        endboss
+    ],
 
-        [
-            new Cloud()
-        ],
+    [
+        new Cloud()
+    ],
 
-        [
-            bird1
-        ],
+    [
+        bird1
+    ],
 
-        coins,
+    coins,
 
-new BackgroundObject("img/5_background/layers/air.png", -720),
-new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -720),
-new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -720),
-new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -720),
+    [
+        new BackgroundObject("img/5_background/layers/air.png", -720),
+        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -720),
+        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -720),
+        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -720),
 
-new BackgroundObject("img/5_background/layers/air.png", 0),
-new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
-new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
-new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0),
+        new BackgroundObject("img/5_background/layers/air.png", 0),
+        new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
+        new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
+        new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0),
 
-new BackgroundObject("img/5_background/layers/air.png", 720),
-new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 720),
-new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 720),
-new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 720),
+        new BackgroundObject("img/5_background/layers/air.png", 720),
+        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 720),
+        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 720),
+        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 720),
 
-new BackgroundObject("img/5_background/layers/air.png", 1440),
-new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 1440),
-new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 1440),
-new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 1440),
+        new BackgroundObject("img/5_background/layers/air.png", 1440),
+        new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 1440),
+        new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 1440),
+        new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 1440),
 
-new BackgroundObject("img/5_background/layers/air.png", 2160),
-new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 2160),
-new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 2160),
-new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 2160),
+        new BackgroundObject("img/5_background/layers/air.png", 2160),
+        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 2160),
+        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 2160),
+        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 2160),
 
-new BackgroundObject("img/5_background/layers/air.png", 2880),
-new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 2880),
-new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 2880),
-new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 2880),
+        new BackgroundObject("img/5_background/layers/air.png", 2880),
+        new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 2880),
+        new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 2880),
+        new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 2880),
 
-new BackgroundObject("img/5_background/layers/air.png", 3600),
-new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 3600),
-new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 3600),
-new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 3600)
+        new BackgroundObject("img/5_background/layers/air.png", 3600),
+        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 3600),
+        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 3600),
+        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 3600)
+    ],
 
-        [
-            bottle1,
-            bottle2,
-            bottle3,
-            bottle4,
-            bottle5,
-            bottle6,
-            bottle7,
-            bottle8,
-            bottle9
-        ]
-    );
+    [
+        bottle1,
+        bottle2,
+        bottle3,
+        bottle4,
+        bottle5,
+        bottle6,
+        bottle7,
+        bottle8,
+        bottle9
+    ]
+);
 }
 

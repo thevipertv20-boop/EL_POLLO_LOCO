@@ -261,6 +261,79 @@ canvas {
     z-index: 25000;
 }
 
+#pauseOverlay .infoPanel {
+    width: 430px;
+    max-width: 90vw;
+    padding: 25px 20px;
+    text-align: center;
+}
+
+#pauseOverlay .infoPanel h2 {
+    margin: 0 0 20px;
+    font-size: 42px;
+    text-align: center;
+}
+
+#pauseOverlay .menuButton {
+    display: block;
+    width: 330px;
+    min-height: 52px;
+    margin: 8px auto;
+}
+
+#pauseOverlay .backButton {
+    display: block;
+    width: 250px;
+    margin: 25px auto 0;
+}
+
+#soundOverlay .infoPanel {
+    width: 430px;
+    max-width: 90vw;
+    padding: 18px;
+}
+
+#soundOverlay .infoPanel h2 {
+    font-size: 36px;
+    margin-bottom: 16px;
+}
+
+#soundOverlay .menuButton {
+    width: 280px;
+}
+
+#soundOverlay .menuButton {
+    width: 280px;
+}
+
+#instructionsOverlay .infoPanel {
+    width: 500px;
+    max-width: 90vw;
+    max-height: 80vh;
+    padding: 20px;
+}
+
+#instructionsOverlay .infoPanel h2 {
+    margin: 0 0 20px;
+    font-size: 36px;
+}
+
+#instructionsOverlay .infoPanel h3 {
+    margin: 14px 0 5px;
+    font-size: 24px;
+}
+
+#instructionsOverlay .infoPanel p {
+    margin: 5px 0 10px;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+#instructionsOverlay .backButton {
+    width: 180px;
+    margin: 18px auto 0;
+}
+
 body.game-ended #restartButton,
 body.game-ended #menuButton {
     display: block;
