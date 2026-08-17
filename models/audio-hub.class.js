@@ -7,12 +7,12 @@ class AudioHub {
     static CHICKEN_DEAD = new Audio("audio/Chicken_tot.mp3");
     static BOSS_WIN = new Audio("audio/Boss_sieg_ende.mp3");
     static GAME_OVER = new Audio("audio/Game_Over.mp3");
+
     static masterVolume = 1;
     static effectsVolume = 1;
     static muted = false;
-    static allSounds = [
 
-        
+    static allSounds = [
         AudioHub.COIN,
         AudioHub.BOTTLE,
         AudioHub.BOSS_HIT,
@@ -22,19 +22,38 @@ class AudioHub {
         AudioHub.GAME_OVER
     ];
 
+    /**
+     * Plays a sound once with the current volume settings.
+     * @param {HTMLAudioElement} sound - Sound to play.
+     */
     static playOne(sound) {
         if (AudioHub.muted) return;
+
         const audio = sound.cloneNode();
-        audio.volume = AudioHub.masterVolume *
-            AudioHub.effectsVolume * 0.5;
+        audio.volume =
+            AudioHub.masterVolume *
+            AudioHub.effectsVolume *
+            0.5;
+
         audio.currentTime = 0;
         audio.play();
     }
 
+    /**
+     * Stops all registered sounds.
+     */
     static stopAll() {
         AudioHub.allSounds.forEach(sound => {
-            sound.pause();
-            sound.currentTime = 0;
+            AudioHub.stopSound(sound);
         });
+    }
+
+    /**
+     * Stops one sound and resets its playback position.
+     * @param {HTMLAudioElement} sound - Sound to stop.
+     */
+    static stopSound(sound) {
+        sound.pause();
+        sound.currentTime = 0;
     }
 }

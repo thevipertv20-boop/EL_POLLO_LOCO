@@ -12,6 +12,9 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/1_walk/3_w.png'
     ];
 
+    /**
+     * Creates a chicken and initializes its images, position and movement.
+     */
     constructor() {
         super();
         this.loadImage(this.IMAGES_WALKING[0]);
@@ -22,17 +25,24 @@ class Chicken extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the chicken movement and walking animation.
+     */
     animate() {
         setInterval(() => {
             if (this.world?.gamePaused || this.dead) return;
             this.moveLeft();
         }, 1000 / 60);
+
         setInterval(() => {
             if (this.world?.gamePaused || this.dead) return;
             this.playAnimation(this.IMAGES_WALKING);
         }, 200);
     }
 
+    /**
+     * Marks the chicken as dead and changes its size and image.
+     */
     hit() {
         if (this.dead) return;
         this.dead = true;
@@ -44,6 +54,10 @@ class Chicken extends MovableObject {
         this.y += 50;
     }
 
+    /**
+     * Checks whether the chicken is dead.
+     * @returns {boolean} True when the chicken is dead.
+     */
     isDead() {
         return this.dead;
     }

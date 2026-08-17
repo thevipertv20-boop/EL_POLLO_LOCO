@@ -1,227 +1,177 @@
+/**
+ * Creates the first game level.
+ * @returns {Level} Configured level with enemies, items and background.
+ */
 function createLevel1() {
-
-    let bird1 = new Bird();
-    bird1.x = 700;
-    bird1.y = 80;
-
-    let chicken1 = new Chicken();
-    chicken1.x = 500;
-
-    let chicken2 = new Chicken();
-    chicken2.x = 800;
-
-    let chicken3 = new Chicken();
-    chicken3.x = 1100;
-
-    let chicken4 = new Chicken();
-    chicken4.x = 1400;
-
-    let chicken5 = new Chicken();
-    chicken5.x = 1700;
-
-    let chicken6 = new Chicken();
-    chicken6.x = 2000;
-
-    let chicken7 = new Chicken();
-    chicken7.x = 2300;
-
-    let endboss = new Endboss();
-    endboss.x = 3000;
-
-    let coins = [];
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 350;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 400;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 450;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 600;
-    coins[coins.length - 1].y = 300;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 650;
-    coins[coins.length - 1].y = 250;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 700;
-    coins[coins.length - 1].y = 300;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 850;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 900;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 950;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1100;
-    coins[coins.length - 1].y = 300;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1150;
-    coins[coins.length - 1].y = 250;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1200;
-    coins[coins.length - 1].y = 200;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1250;
-    coins[coins.length - 1].y = 250;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1300;
-    coins[coins.length - 1].y = 300;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1450;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1500;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1550;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1700;
-    coins[coins.length - 1].y = 300;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1750;
-    coins[coins.length - 1].y = 250;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 1800;
-    coins[coins.length - 1].y = 300;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 2000;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 2050;
-    coins[coins.length - 1].y = 350;
-
-    coins.push(new Coin());
-    coins[coins.length - 1].x = 2100;
-    coins[coins.length - 1].y = 350;
-
-
-    let bottle1 = new Bottle();
-    bottle1.x = 250;
-
-    let bottle2 = new Bottle();
-    bottle2.x = 550;
-
-    let bottle3 = new Bottle();
-    bottle3.x = 850;
-
-    let bottle4 = new Bottle();
-    bottle4.x = 1150;
-
-    let bottle5 = new Bottle();
-    bottle5.x = 1450;
-
-    let bottle6 = new Bottle();
-    bottle6.x = 1750;
-
-    let bottle7 = new Bottle();
-    bottle7.x = 2050;
-
-    let bottle8 = new Bottle();
-    bottle8.x = 2350;
-
-    let bottle9 = new Bottle();
-    bottle9.x = 2650;
-
+    const enemies = createEnemies();
+    const clouds = [new Cloud()];
+    const birds = createBirds();
+    const coins = createCoins();
+    const bottles = createBottles();
+    const backgroundObjects = createBackgroundObjects();
 
     return new Level(
+        enemies,
+        clouds,
+        birds,
+        coins,
+        backgroundObjects,
+        bottles
+    );
+}
 
-    [
-        chicken1,
-        chicken2,
-        chicken3,
-        chicken4,
-        chicken5,
-        chicken6,
-        chicken7,
-        endboss
-    ],
+/**
+ * Creates all enemies for level one.
+ * @returns {MovableObject[]} Level enemies.
+ */
+function createEnemies() {
+    const chickens = [
+        createChicken(500),
+        createChicken(800),
+        createChicken(1100),
+        createChicken(1400),
+        createChicken(1700),
+        createChicken(2000),
+        createChicken(2300)
+    ];
 
-    [
-        new Cloud()
-    ],
+    const endboss = new Endboss();
+    endboss.x = 3000;
 
-    [
-        bird1
-    ],
+    return [...chickens, endboss];
+}
 
-    coins,
+/**
+ * Creates one chicken at the given position.
+ * @param {number} x - Horizontal position.
+ * @returns {Chicken} Created chicken.
+ */
+function createChicken(x) {
+    const chicken = new Chicken();
+    chicken.x = x;
+    return chicken;
+}
 
-    [
-        new BackgroundObject("img/5_background/layers/air.png", -720),
-        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", -720),
-        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", -720),
-        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", -720),
+/**
+ * Creates the birds for level one.
+ * @returns {Bird[]} Created birds.
+ */
+function createBirds() {
+    const bird = new Bird();
+    bird.x = 700;
+    bird.y = 80;
 
-        new BackgroundObject("img/5_background/layers/air.png", 0),
-        new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
-        new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
-        new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0),
+    return [bird];
+}
 
-        new BackgroundObject("img/5_background/layers/air.png", 720),
-        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 720),
-        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 720),
-        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 720),
+/**
+ * Creates all coins for level one.
+ * @returns {Coin[]} Created coins.
+ */
+function createCoins() {
+    const positions = [
+        [350, 350],
+        [400, 350],
+        [450, 350],
+        [600, 300],
+        [650, 250],
+        [700, 300],
+        [850, 350],
+        [900, 350],
+        [950, 350],
+        [1100, 300],
+        [1150, 250],
+        [1200, 200],
+        [1250, 250],
+        [1300, 300],
+        [1450, 350],
+        [1500, 350],
+        [1550, 350],
+        [1700, 300],
+        [1750, 250],
+        [1800, 300],
+        [2000, 350],
+        [2050, 350],
+        [2100, 350]
+    ];
 
-        new BackgroundObject("img/5_background/layers/air.png", 1440),
-        new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 1440),
-        new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 1440),
-        new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 1440),
+    return positions.map(([x, y]) => createCoin(x, y));
+}
 
-        new BackgroundObject("img/5_background/layers/air.png", 2160),
-        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 2160),
-        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 2160),
-        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 2160),
+/**
+ * Creates one coin at the given position.
+ * @param {number} x - Horizontal position.
+ * @param {number} y - Vertical position.
+ * @returns {Coin} Created coin.
+ */
+function createCoin(x, y) {
+    const coin = new Coin();
+    coin.x = x;
+    coin.y = y;
+    return coin;
+}
 
-        new BackgroundObject("img/5_background/layers/air.png", 2880),
-        new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 2880),
-        new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 2880),
-        new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 2880),
+/**
+ * Creates all bottles for level one.
+ * @returns {Bottle[]} Created bottles.
+ */
+function createBottles() {
+    const positions = [
+        250,
+        550,
+        850,
+        1150,
+        1450,
+        1750,
+        2050,
+        2350,
+        2650
+    ];
 
-        new BackgroundObject("img/5_background/layers/air.png", 3600),
-        new BackgroundObject("img/5_background/layers/3_third_layer/2.png", 3600),
-        new BackgroundObject("img/5_background/layers/2_second_layer/2.png", 3600),
-        new BackgroundObject("img/5_background/layers/1_first_layer/2.png", 3600)
-    ],
+    return positions.map(x => createBottle(x));
+}
 
-    [
-        bottle1,
-        bottle2,
-        bottle3,
-        bottle4,
-        bottle5,
-        bottle6,
-        bottle7,
-        bottle8,
-        bottle9
-    ]
-);
+/**
+ * Creates one bottle at the given position.
+ * @param {number} x - Horizontal position.
+ * @returns {Bottle} Created bottle.
+ */
+function createBottle(x) {
+    const bottle = new Bottle();
+    bottle.x = x;
+    return bottle;
+}
+
+/**
+ * Creates all background objects for level one.
+ * @returns {BackgroundObject[]} Background objects.
+ */
+function createBackgroundObjects() {
+    const positions = [-720, 0, 720, 1440, 2160, 2880, 3600];
+
+    return positions.flatMap((x, index) => {
+        const layer = index % 2 === 0 ? '1' : '2';
+        const thirdLayer = index % 2 === 0 ? '1' : '2';
+        const secondLayer = index % 2 === 0 ? '1' : '2';
+
+        return [
+            new BackgroundObject(
+                'img/5_background/layers/air.png',
+                x
+            ),
+            new BackgroundObject(
+                `img/5_background/layers/3_third_layer/${thirdLayer}.png`,
+                x
+            ),
+            new BackgroundObject(
+                `img/5_background/layers/2_second_layer/${secondLayer}.png`,
+                x
+            ),
+            new BackgroundObject(
+                `img/5_background/layers/1_first_layer/${layer}.png`,
+                x
+            )
+        ];
+    });
 }
 

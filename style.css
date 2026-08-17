@@ -363,22 +363,40 @@ body.game-ended #canvas {
     width: 12px;
 }
 
+.infoPanel::-webkit-scrollbar {
+    width: 8px;
+}
+
 .infoPanel::-webkit-scrollbar-track {
-    background: #24140b;
-    border-radius: 10px;
+    background: transparent;
 }
 
 .infoPanel::-webkit-scrollbar-thumb {
-    background: linear-gradient(#f5a623, #c86c17);
-    border: 2px solid #24140b;
+    background: #d99524;
+    border: 2px solid transparent;
+    background-clip: padding-box;
     border-radius: 10px;
 }
 
 .infoPanel::-webkit-scrollbar-thumb:hover {
     background: #f5b43d;
+    background-clip: padding-box;
 }
 
-.infoPanel {
-    scrollbar-width: thin;
-    scrollbar-color: #d99524 #24140b;
+.end-screen-button {
+    display: block;
+}
+
+body.game-ended #restartButton,
+body.game-ended #menuButton {
+    display: block;
+    z-index: 25000;
+}
+
+body.game-ended #restartButton {
+    left: calc(50% - 220px);
+}
+
+body.game-ended #menuButton {
+    left: calc(50% + 10px);
 }

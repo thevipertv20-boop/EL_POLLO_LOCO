@@ -40,8 +40,17 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
 
+    /**
+     * Creates the endboss and initializes its images and collision offset.
+     */
     constructor() {
         super();
+        this.offset = {
+            top: 100,
+            bottom: 40,
+            left: 40,
+            right: 40
+        };
         this.loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_ATTACK);
@@ -50,6 +59,9 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the walking animation of the endboss.
+     */
     animate() {
         setInterval(() => {
             if (this.isDeadAnimation || this.isAttacking) return;
@@ -57,53 +69,134 @@ class Endboss extends MovableObject {
         }, 200);
     }
 
+    /**
+     * Checks whether another boss animation is currently active.
+     * @returns {boolean} True when walking animation should be blocked.
+     */
+    isAnimationBlocked() {
+        return (
+            this.isDeadAnimation ||
+            this.isAttacking ||
+            this.isHurtAnimation
+        );
+    }
+
+    /**
+     * Starts the attack animation of the endboss.
+     * @param {Character} character - Character targeted by the attack.
+     */
     attack(character) {
         if (this.isDeadAnimation || this.isAttacking) return;
         this.isAttacking = true;
         this.currentImage = 0;
+        this.startAttackAnimation();
+    }
+
+    /**
+     * Plays the attack animation from first to last image.
+     */
+    startAttackAnimation() {
         this.attackAnimation = setInterval(() => {
-            if (this.currentImage >= this.IMAGES_ATTACK.length) {
-                clearInterval(this.attackAnimation);
-                this.isAttacking = false;
+            if (this.isAttackFinished()) {
+                this.stopAttackAnimation();
                 return;
             }
-            this.img = this.imageCache[
-                this.IMAGES_ATTACK[this.currentImage]
-            ];
-            this.currentImage++;
+            this.showAttackImage();
         }, 100);
     }
 
+    /**
+     * Checks whether the attack animation has finished.
+     * @returns {boolean} True when all attack images were shown.
+     */
+    isAttackFinished() {
+        return this.currentImage >= this.IMAGES_ATTACK.length;
+    }
+
+    /**
+     * Displays the current attack animation image.
+     */
+    showAttackImage() {
+        const path = this.IMAGES_ATTACK[this.currentImage];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
+
+    /**
+     * Stops the attack animation.
+     */
+    stopAttackAnimation() {
+        clearInterval(this.attackAnimation);
+        this.isAttacking = false;
+        this.currentImage = 0;
+    }
+
+    /**
+ * Reduces the endboss energy.
+ */
     hit() {
         if (this.energy <= 0) return;
+
         this.energy -= 20;
-        if (this.energy < 0) {
-            this.energy = 0;
-        }
+        this.energy = Math.max(0, this.energy);
+
         AudioHub.playOne(AudioHub.BOSS_HIT);
+
         if (this.energy <= 0) {
             this.die();
         }
     }
 
+    /**
+     * Starts the boss death animation.
+     */
     die() {
         if (this.isDeadAnimation) return;
         this.isDeadAnimation = true;
         this.isAttacking = false;
+        this.isHurtAnimation = false;
+        this.deadAnimationFinished = false;
+        this.clearActiveAnimations();
+        this.startDeathAnimation();
+    }
+
+    /**
+     * Stops attack and hurt animations.
+     */
+    clearActiveAnimations() {
         if (this.attackAnimation) {
             clearInterval(this.attackAnimation);
         }
-        this.currentImage = 0;
-        let animation = setInterval(() => {
-            if (this.currentImage >= this.IMAGES_DEAD.length) {
-                clearInterval(animation);
+        if (this.hurtAnimation) {
+            clearInterval(this.hurtAnimation);
+        }
+    }
+
+    /**
+ * Starts the boss death animation sequence.
+ */
+    startDeathAnimation() {
+        let deathImage = 0;
+
+        const deathOffsets = [
+            0,
+            15,
+            25
+        ];
+
+        this.deathAnimation = setInterval(() => {
+            if (deathImage >= this.IMAGES_DEAD.length) {
+                clearInterval(this.deathAnimation);
                 this.deadAnimationFinished = true;
                 return;
             }
-            this.img = this.imageCache[
-                this.IMAGES_DEAD[this.currentImage]
-            ];
-            this.currentImage++;
+
+            const path = this.IMAGES_DEAD[deathImage];
+            this.img = this.imageCache[path];
+
+            this.y = 50 + deathOffsets[deathImage];
+
+            deathImage++;
         }, 500);
     }
 }
