@@ -16,7 +16,7 @@ body {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    background: url("img/El_pollo_Loco_Icon/Hintergrund.png") center center / cover no-repeat;
+    background: url("img/El_pollo_Loco_Icon/Hintergrund.jpg") center center / cover no-repeat;
 }
 
 canvas {
@@ -43,7 +43,7 @@ canvas {
 }
 
 #startScreen {
-    background: url("img/El_pollo_Loco_Icon/Hintergrund.png") center center / cover no-repeat;
+    background: url("img/El_pollo_Loco_Icon/Hintergrund.jpg") center center / cover no-repeat;
 }
 
 

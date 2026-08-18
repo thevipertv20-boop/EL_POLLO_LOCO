@@ -64,7 +64,7 @@ D / Pfeil rechts      Nach rechts bewegen
 
 Leertaste             Springen
 
-F                     Flasche werfen
+D                     Flasche werfen
 
 ## Spiel
 
