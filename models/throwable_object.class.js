@@ -27,10 +27,15 @@ class ThrowableObject extends MovableObject {
     }
 
     /**
-     * Moves the bottle continuously to the right.
+     * Moves the bottle according to its direction.
      */
     startHorizontalMovement() {
         setInterval(() => {
+            if (this.otherDirection) {
+                this.x -= 10;
+                return;
+            }
+
             this.x += 10;
         }, 28);
     }

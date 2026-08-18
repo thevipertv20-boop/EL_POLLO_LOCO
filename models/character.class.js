@@ -6,6 +6,8 @@ class Character extends MovableObject {
     currentImage = 0;
     jumpImage = 0;
     jumpAnimationActive = false;
+    jumpAnimationSpeed = 3;
+    jumpAnimationCounter = 0;
     isWalking = false;
     lastActionTime = Date.now();
 
@@ -275,9 +277,14 @@ class Character extends MovableObject {
     }
 
     /**
-     * Displays the current jump image.
-     */
+ * Displays the current jump image at a slower speed.
+ */
     showJumpImage() {
+        if (this.jumpAnimationCounter < this.jumpAnimationSpeed) {
+            this.jumpAnimationCounter++;
+            return;
+        }
+        this.jumpAnimationCounter = 2.5;
         const path = this.IMAGES_JUMPING[this.jumpImage];
         this.img = this.imageCache[path];
         this.advanceJumpImage();
@@ -302,11 +309,12 @@ class Character extends MovableObject {
     }
 
     /**
-     * Resets the jump animation.
-     */
+ * Resets the jump animation.
+ */
     resetJumpAnimation() {
         this.jumpAnimationActive = false;
         this.jumpImage = 0;
+        this.jumpAnimationCounter = 0;
     }
 
     /**

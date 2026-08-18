@@ -568,12 +568,15 @@ class World {
     }
 
     /**
-     * Creates and throws a new bottle.
-     */
+ * Creates and throws a bottle in the character's direction.
+ */
     throwBottle() {
         this.lastThrowTime = Date.now();
+        const startX = this.character.otherDirection
+            ? this.character.x - 40
+            : this.character.x + 100;
         const bottle = new ThrowableObject(
-            this.character.x + 100,
+            startX,
             this.character.y + 100
         );
         bottle.otherDirection = this.character.otherDirection;
@@ -664,10 +667,9 @@ class World {
     finishBossWin() {
         setTimeout(() => {
             if (this.destroyed) return;
-
             AudioHub.playOne(AudioHub.BOSS_WIN);
             this.gameWon = true;
-        }, 5000);
+        }, 1000);
     }
 
     /**

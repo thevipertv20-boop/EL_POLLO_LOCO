@@ -485,11 +485,12 @@ window.addEventListener("keydown", event => {
  * Handles keyboard release.
  */
 window.addEventListener("keyup", event => {
-    setKeyState(event.keyCode, false);
-
     if (event.keyCode === 32) {
         event.preventDefault();
+        return;
     }
+
+    setKeyState(event.keyCode, false);
 });
 
 /**
